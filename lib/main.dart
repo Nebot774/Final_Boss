@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'bloc/ui/pages/home_page.dart'; // Asegúrate de que esta ruta de importación sea correcta
 
 void main() {
   runApp(const MyApp());
@@ -10,15 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter Demo Home Page'),
-        ),
-        body: Center(
-          child: Text('Hello World'),
-        ),
-      ),
+      title: '', // Cambia esto al título de tu aplicación
+      home: HomePage(), // Redirige a HomePage al iniciar
     );
   }
 }

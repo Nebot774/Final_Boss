@@ -44,6 +44,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/imagenes/i_home/
   fonts:
     - family: Exo
       fonts:
