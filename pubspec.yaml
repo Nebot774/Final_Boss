@@ -46,6 +46,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/imagenes/i_home/
+    - assets/imagenes/i_menu/
   fonts:
     - family: Exo
       fonts:
