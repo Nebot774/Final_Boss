@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -85,7 +86,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Acción que se llevará a cabo cuando se toque el botón
+                    // Navega a TermsAndConditionsScreen cuando se toque el botón
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()),
+                    );
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.2, // Añade esta línea
