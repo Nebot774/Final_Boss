@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:final_boss/bloc/ui/pages/menu_page.dart'; // Asegúrate de que esta es la ruta correcta para tu archivo menu_page.dart
 
-class TermsAndConditionsScreen extends StatelessWidget {
+class TermsAndConditionsScreen extends StatefulWidget {
+  @override
+  _TermsAndConditionsScreenState createState() => _TermsAndConditionsScreenState();
+}
+
+class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
+  bool _isChecked = false;
+
   void _onAccept(BuildContext context) {
-    Navigator.of(context).push(
-      // Navegar al fragmento o pantalla que desees
-      MaterialPageRoute(builder: (context) => MenuPage()),
-    );
+    if (_isChecked) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => MenuPage()),
+      );
+    } else {
+      // Mostrar un mensaje de error o hacer algo cuando el checkbox no está marcado
+    }
   }
 
   @override
@@ -14,8 +24,16 @@ class TermsAndConditionsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Términos y Condiciones'),
-        backgroundColor: Colors.black,
+        title: Text(
+          'Términos y Condiciones',
+          style: TextStyle(
+            color: Colors.white, // Color blanco para el texto del título
+          ),
+        ),
+        backgroundColor: Colors.blue[900], // Color azul oscuro para la AppBar
+        iconTheme: IconThemeData(
+          color: Colors.white, // Color blanco para el icono de ir atrás
+        ),
       ),
       body: Scrollbar(
         //isAlwaysShown: true, // Muestra la barra de desplazamiento siempre
@@ -26,7 +44,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: Colors.black,
-              border: Border.all(color: Color(0xFFCD7F32)), // Color bronce para el borde
+              border: Border.all(color: Color(0xFFFF0000)), // Color bronce para el borde
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Padding(
@@ -146,15 +164,34 @@ class TermsAndConditionsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16.0),
+                  CheckboxListTile(
+                    title: Text(
+                      'Al utilizar "Explora el Espacio con la NASA", los usuarios reconocen haber leído y entendido estos términos y condiciones, y aceptan estar legalmente vinculados por ellos. Agradecemos tu interés y confianza en nuestro proyecto educativo.',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Exo',
+                        fontWeight: FontWeight.bold, // Añade esto para hacer la fuente negrita
+                        fontSize: 9.0, // Añade esto para reducir el tamaño de la fuente
+                      ),
+                    ),
+                    value: _isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _isChecked = value!;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                  ),
                   Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFCD7F32), // Color bronce para el botón
+                        primary: Color(0xFFFF0000), // Color bronce para el botón
                       ),
                       onPressed: () => _onAccept(context),
                       child: Text(
                         'Aceptar',
                         style: TextStyle(
+                          color: Colors.white, // Color blanco para el texto
                           fontFamily: 'Exo',
                         ),
                       ),
@@ -169,5 +206,4 @@ class TermsAndConditionsScreen extends StatelessWidget {
     );
   }
 }
-
 

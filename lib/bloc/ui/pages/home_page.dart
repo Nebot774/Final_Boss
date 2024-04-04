@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     'assets/imagenes/i_home/quintetoGalaxias.png',
   ];
 
-  int _currentIndex = 0;
+  int _currentIndex = Random().nextInt(4); // Genera un número aleatorio entre 0 y 3
   Timer? _timer;
 
   @override
@@ -84,32 +85,35 @@ class _HomePageState extends State<HomePage> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // Navega a TermsAndConditionsScreen cuando se toque el botón
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()),
-                    );
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.2, // Añade esta línea
-                    width: MediaQuery.of(context).size.width * 0.2, // Añade esta línea
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/imagenes/i_home/luna_boton.png'), // Asegúrate de que esta es la ruta correcta para tu imagen de la luna
-                        fit: BoxFit.contain, // Cambia esto a BoxFit.contain
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navega a TermsAndConditionsScreen cuando se toque el botón
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()),
+                      );
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.2, // Añade esta línea
+                      width: MediaQuery.of(context).size.width * 0.2, // Añade esta línea
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/imagenes/i_home/luna_boton.png'), // Asegúrate de que esta es la ruta correcta para tu imagen de la luna
+                          fit: BoxFit.contain, // Cambia esto a BoxFit.contain
+                        ),
                       ),
-                    ),
-                    child: Center( // Añade el widget Center aquí
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 4.0, 8.0), // Cambia el padding aquí
-                        child: Text(
-                          '',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Exo',
+                      child: Center( // Añade el widget Center aquí
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0, 4.0, 4.0, 8.0), // Cambia el padding aquí
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Exo',
+                            ),
                           ),
                         ),
                       ),
