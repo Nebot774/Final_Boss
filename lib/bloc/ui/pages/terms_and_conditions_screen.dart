@@ -15,7 +15,12 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
         MaterialPageRoute(builder: (context) => MenuPage()),
       );
     } else {
-      // Mostrar un mensaje de error o hacer algo cuando el checkbox no está marcado
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Debe aceptar los términos para poder continuar'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 
