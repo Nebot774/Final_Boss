@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:final_boss/bloc/models/item.dart';
 import 'package:final_boss/bloc/animations/rotation_y_transition.dart';
+import 'dart:math';
 
 class ItemCard extends StatefulWidget {
   final Item item;
@@ -37,46 +38,63 @@ class _ItemCardState extends State<ItemCard> {
 
   Widget buildFrontSide(Item item) {
     double screenWidth = MediaQuery.of(context).size.width; // Obtén el ancho de la pantalla
-    return Container(
-      key: ValueKey(true), // Clave única para la parte frontal
-      width: screenWidth,
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        double thirtyPercentHeight = constraints.maxHeight * 0.12; // Calcula el 30% de la altura total
+
+        return Container(
+          key: ValueKey(true), // Clave única para la parte frontal
+          width: screenWidth,
+          child: Column(
+            children: [
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: Duration(seconds: 1),
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    return RotationYTransition(rotationY: animation, child: child);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(item.imagePath), // Imagen del item
+                      ),
+                    ),
+                  ),
                 ),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(item.imagePath), // Imagen del item
+              ),
+              Container(
+                height: thirtyPercentHeight, // Asigna el 30% de la altura total al contenedor
+                width: double.infinity, // Ocupa todo el ancho disponible
+                decoration: BoxDecoration(
+                  color: Color(0xFFFF0000), // fondo de color rojjo
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                ),
+                child: Center( // Alinea el texto al centro
+                  child: Text(
+                    item.name,
+                    style: TextStyle(
+                      fontFamily: 'Exo',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // texto de color blanco
+                      fontSize: 24.0, // Aumenta el tamaño del texto
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-          Container(
-            width: double.infinity, // Ocupa todo el ancho disponible
-            decoration: BoxDecoration(
-              color: Colors.blue[900], // fondo de color azul
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-            ),
-            child: Text(
-              item.name,
-              style: TextStyle(
-                fontFamily: 'Exo',
-                fontWeight: FontWeight.bold,
-                color: Colors.white, // texto de color blanco
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
