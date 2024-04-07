@@ -19,7 +19,7 @@ class MenuPage extends StatelessWidget {
       item: Item(
         imagePath: 'assets/imagenes/i_menu/i_dia.png',
         name: 'Imagen del dia',
-        description: 'Aqui msotraremso la imagen astronomica mas relevante del dia de hoy',
+        description: 'Descubre la belleza del cosmos con la Imagen Astronómica del Día, traída directamente desde la NASA a tu pantalla',
       ),
       destinationPage: ImagenDelDia(),
     ),
@@ -27,7 +27,7 @@ class MenuPage extends StatelessWidget {
       item: Item(
         imagePath: 'assets/imagenes/i_menu/asteroidecer.png',
         name: 'Asteroides Cercanos a la Tierra',
-        description: 'Aqui msotraremso la imagen astronomica mas relevante del dia de hoy',
+        description: 'Explora los asteroides que orbitan cerca de nuestro planeta, con datos actualizados sobre sus tamaños, velocidades y distancias',
       ),
       destinationPage: AsteroidesCercanos(),
     ),
@@ -35,7 +35,7 @@ class MenuPage extends StatelessWidget {
       item: Item(
         imagePath: 'assets/imagenes/i_menu/mrover.png',
         name: 'Mar Rovers en Marte ',
-        description: 'Aqui msotraremso la imagen astronomica mas relevante del dia de hoy',
+        description: 'Viaja a Marte desde tu dispositivo y explora las últimas fotos capturadas por los rovers Curiosity, Opportunity y Spirit',
       ),
       destinationPage: MarsRovers(),
     ),
@@ -43,7 +43,7 @@ class MenuPage extends StatelessWidget {
       item: Item(
         imagePath: 'assets/imagenes/i_menu/astronauta.png',
         name: 'Galería de Imágenes y Vídeos de la NASA',
-        description: 'Aqui msotraremso la imagen astronomica mas relevante del dia de hoy',
+        description: 'Navega por una vasta colección de impresionantes imágenes y videos espaciales de la NASA, actualizada constantemente',
       ),
       destinationPage: GaleriaNasa(),
     ),
@@ -51,15 +51,15 @@ class MenuPage extends StatelessWidget {
       item: Item(
         imagePath: 'assets/imagenes/i_menu/tierra.png',
         name: 'Imágenes de la Tierra desde el Espacio',
-        description: 'Aqui msotraremso la imagen astronomica mas relevante del dia de hoy',
+        description: 'Observa nuestro planeta desde una perspectiva única con las últimas imágenes de la Tierra tomadas desde el espacio',
       ),
       destinationPage: TierraDesdeEspacio(),
     ),
     ItemDestination(
       item: Item(
         imagePath: 'assets/imagenes/i_menu/satu.png',
-        name: 'Imágenes de la Tierra desde el Espacio',
-        description: 'Aqui msotraremso la imagen astronomica mas relevante del dia de hoy',
+        name: 'Imagen del Día de tu Cumpleaños',
+        description: 'Encuentra y maravíllate con la Imagen Astronómica del Día de la NASA correspondiente a tu fecha de nacimiento',
       ),
       destinationPage: DiaCumple(),
     ),
