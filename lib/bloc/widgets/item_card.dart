@@ -36,9 +36,10 @@ class _ItemCardState extends State<ItemCard> {
   }
 
   Widget buildFrontSide(Item item) {
+    double screenWidth = MediaQuery.of(context).size.width; // Obtén el ancho de la pantalla
     return Container(
       key: ValueKey(true), // Clave única para la parte frontal
-      width: 160.0,
+      width: screenWidth,
       child: Column(
         children: [
           Expanded(
@@ -80,9 +81,10 @@ class _ItemCardState extends State<ItemCard> {
   }
 
   Widget buildBackSide(Item item) {
+    double screenWidth = MediaQuery.of(context).size.width; // Obtén el ancho de la pantalla
     return Container(
       key: ValueKey(false), // Clave única para la parte trasera
-      width: 160.0,
+      width: screenWidth, // Asigna el ancho de la pantalla al ancho del contenedor
       decoration: BoxDecoration(
         color: Colors.black, // Un color de fondo para la parte trasera, para distinguirla
         borderRadius: BorderRadius.circular(10),
