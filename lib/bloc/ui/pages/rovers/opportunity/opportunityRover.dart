@@ -61,9 +61,12 @@ class _OpportunityPageState extends State<OpportunityPage> {
           ),
         ],
       ),
-      body: _pages.elementAt(_selectedIndex),
+      body: Container(
+        color: Colors.black, // Cambia el color de fondo a negro
+        child: _pages.elementAt(_selectedIndex), // Mostrar la pantalla seleccionada
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blue[900],
+        backgroundColor: Colors.red, // Cambia el color de fondo del menú de navegación a rojo
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.rocket_launch),
@@ -75,8 +78,8 @@ class _OpportunityPageState extends State<OpportunityPage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
     );
