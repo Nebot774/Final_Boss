@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/bloc/models/ItemRover.dart';
+import 'package:final_boss/bloc/ui/pages/rovers/curiosity/curiosityRover.dart';
+import 'package:final_boss/bloc/ui/pages/rovers/opportunity/opportunityRover.dart';
+import 'package:final_boss/bloc/ui/pages/rovers/spirit/spiritRover.dart';
+import 'package:final_boss/bloc/widgets/item_card_rover.dart';
 
 class MarsRovers extends StatelessWidget {
+  final List<ItemRover> rovers = [
+    ItemRover(
+      imagePath: 'assets/imagenes/i_rovers_menu/curiosity_menu.png', // Asegúrate de tener esta imagen en tu carpeta de assets
+      name: 'Curiosity',
+      destinationPage: CuriosityPage(), // Widget de la página de destino para Curiosity
+    ),
+    ItemRover(
+      imagePath: 'assets/imagenes/i_rovers_menu/opportunity_menu.png', // Asegúrate de tener esta imagen en tu carpeta de assets
+      name: 'Opportunity',
+      destinationPage: OpportunityPage(), // Widget de la página de destino para Opportunity
+    ),
+    ItemRover(
+      imagePath: 'assets/imagenes/i_rovers_menu/spirit_menu.png', // Asegúrate de tener esta imagen en tu carpeta de assets
+      name: 'Spirit',
+      destinationPage: SpiritPage(), // Widget de la página de destino para Spirit
+    ),
+    // Añade más rovers si lo deseas
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +65,12 @@ class MarsRovers extends StatelessWidget {
       ),
       body: Container(
         color: Colors.black, // Cambia el color de fondo a negro
-        child: Center(
-          child: Text(''),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal, // Añade esta línea para hacer que la lista se desplace horizontalmente
+          itemCount: rovers.length,
+          itemBuilder: (context, index) {
+            return ItemCardRover(itemRover: rovers[index]);
+          },
         ),
       ),
     );

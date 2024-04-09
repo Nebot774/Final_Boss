@@ -47,6 +47,7 @@ flutter:
   assets:
     - assets/imagenes/i_home/
     - assets/imagenes/i_menu/
+    - assets/imagenes/i_rovers_menu/
   fonts:
     - family: Exo
       fonts:
