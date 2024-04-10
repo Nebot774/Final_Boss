@@ -27,7 +27,7 @@ class InformationOpportunity extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Center(
                 child: Image.asset(
-                  'assets/opportunity.jpg', // Asegúrate de tener esta imagen en tus assets
+                  'assets/imagenes/i_rovers_menu/opportunity_menu.png', // Asegúrate de tener esta imagen en tus assets
                   fit: BoxFit.cover,
                 ),
               ),

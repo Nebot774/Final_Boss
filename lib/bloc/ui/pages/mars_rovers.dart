@@ -9,17 +9,17 @@ import 'package:final_boss/bloc/widgets/item_card_rover.dart';
 class MarsRovers extends StatelessWidget {
   final List<ItemRover> rovers = [
     ItemRover(
-      imagePath: 'assets/imagenes/i_rovers_menu/curiosity_menu.png', // Asegúrate de tener esta imagen en tu carpeta de assets
+      imagePath: 'assets/imagenes/i_rovers_menu/curiosity_real_menu.jpg', // Asegúrate de tener esta imagen en tu carpeta de assets
       name: 'Curiosity',
       destinationPage: CuriosityPage(), // Widget de la página de destino para Curiosity
     ),
     ItemRover(
-      imagePath: 'assets/imagenes/i_rovers_menu/opportunity_menu.png', // Asegúrate de tener esta imagen en tu carpeta de assets
+      imagePath: 'assets/imagenes/i_rovers_menu/opportunity_real_menu.jpg', // Asegúrate de tener esta imagen en tu carpeta de assets
       name: 'Opportunity',
       destinationPage: OpportunityPage(), // Widget de la página de destino para Opportunity
     ),
     ItemRover(
-      imagePath: 'assets/imagenes/i_rovers_menu/spirit_menu.png', // Asegúrate de tener esta imagen en tu carpeta de assets
+      imagePath: 'assets/imagenes/i_rovers_menu/spirit_real_menu.jpg', // Asegúrate de tener esta imagen en tu carpeta de assets
       name: 'Spirit',
       destinationPage: SpiritPage(), // Widget de la página de destino para Spirit
     ),
