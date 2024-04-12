@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:final_boss/bloc/models/item.dart';
 import 'package:final_boss/bloc/animations/rotation_y_transition.dart';
 import 'dart:math';
-
+import 'dart:async';
+import 'package:flutter/material.dart';
 
 class ItemCard extends StatefulWidget {
   final Item item;
@@ -16,7 +17,7 @@ class ItemCard extends StatefulWidget {
 
 class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool isFront = true;
+  Timer? _timer; // Declarar _timer como nulo
 
   @override
   void initState() {
@@ -30,16 +31,28 @@ class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin
   @override
   void dispose() {
     _controller.dispose();
+    _timer?.cancel(); // Cancelar el timer cuando el widget sea desechado
     super.dispose();
   }
 
   void _flipCard() {
-    if (isFront) {
-      _controller.forward();
-    } else {
-      _controller.reverse();
-    }
-    isFront = !isFront;
+    setState(() {
+      if (_controller.isDismissed) {
+        _controller.forward();
+        _startTimer();
+      } else {
+        _controller.reverse();
+        _timer?.cancel(); // Cancelar el timer si se vuelve a girar manualmente
+      }
+    });
+  }
+
+  void _startTimer() {
+    _timer = Timer(Duration(seconds: 10), () {
+      if (mounted && !_controller.isDismissed) {
+        _controller.reverse();
+      }
+    });
   }
 
   @override
@@ -52,7 +65,7 @@ class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin
             final angle = _controller.value * pi;
             final transform = Matrix4.rotationY(angle);
             if (_controller.value > 0.5) {
-              transform.setEntry(3, 2, 0.001); // ajuste de perspectiva
+              transform.setEntry(3, 2, 0.001); // Ajuste de perspectiva
               transform.rotateY(pi);
             }
             return Transform(
@@ -64,7 +77,6 @@ class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin
       ),
     );
   }
-
 
   Widget buildFrontSide(Item item) {
     double screenWidth = MediaQuery.of(context).size.width; // Obtén el ancho de la pantalla
