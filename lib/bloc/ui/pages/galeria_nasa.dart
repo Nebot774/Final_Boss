@@ -39,6 +39,45 @@ class GaleriaNasa extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return GestureDetector(
+            onTap: () {
+              // Acción al presionar el botón
+            },
+            child: Container(
+              width: constraints.maxWidth * 0.20, // 20% del ancho de la pantalla
+              height: constraints.maxWidth * 0.20, // 20% del ancho de la pantalla
+              decoration: BoxDecoration(
+                color: Colors.blue[900],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(50.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(1.0, 1.0),
+                    blurRadius: 3.0,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  'Ver más',
+                  textAlign: TextAlign.center, // Centra el texto horizontalmente
+                  style: TextStyle(
+                    fontFamily: 'Exo',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
       body: Container(
         color: Colors.black, // Cambia el color de fondo a negro
         child: Center(

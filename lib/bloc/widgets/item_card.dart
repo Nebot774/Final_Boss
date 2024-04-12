@@ -3,6 +3,7 @@ import 'package:final_boss/bloc/models/item.dart';
 import 'package:final_boss/bloc/animations/rotation_y_transition.dart';
 import 'dart:math';
 
+
 class ItemCard extends StatefulWidget {
   final Item item;
   final Widget destinationPage;
@@ -13,28 +14,57 @@ class ItemCard extends StatefulWidget {
   _ItemCardState createState() => _ItemCardState();
 }
 
-class _ItemCardState extends State<ItemCard> {
+class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
   bool isFront = true;
 
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void _flipCard() {
-    setState(() {
-      isFront = !isFront;
-    });
+    if (isFront) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+    isFront = !isFront;
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _flipCard, // Asigna la acción de voltear la tarjeta
-      child: AnimatedSwitcher(
-        duration: Duration(seconds: 1),
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return RotationYTransition(rotationY: animation, child: child);
-        },
-        child: isFront ? buildFrontSide(widget.item) : buildBackSide(widget.item),
+      onTap: _flipCard,
+      child: AnimatedBuilder(
+          animation: _controller,
+          builder: (_, child) {
+            final angle = _controller.value * pi;
+            final transform = Matrix4.rotationY(angle);
+            if (_controller.value > 0.5) {
+              transform.setEntry(3, 2, 0.001); // ajuste de perspectiva
+              transform.rotateY(pi);
+            }
+            return Transform(
+              transform: transform,
+              alignment: Alignment.center,
+              child: _controller.value <= 0.5 ? buildFrontSide(widget.item) : buildBackSide(widget.item),
+            );
+          }
       ),
     );
   }
+
 
   Widget buildFrontSide(Item item) {
     double screenWidth = MediaQuery.of(context).size.width; // Obtén el ancho de la pantalla
