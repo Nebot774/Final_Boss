@@ -11,9 +11,12 @@ import 'package:final_boss/bloc/ui/pages/mars_rovers.dart';
 import 'package:final_boss/bloc/ui/pages/galeria_nasa.dart';
 import 'package:final_boss/bloc/ui/pages/tierra_desde_espacio.dart';
 import 'package:final_boss/bloc/ui/pages/dia_cumple.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
+class MenuPage extends StatefulWidget {
+  @override
+  _MenuPageState createState() => _MenuPageState();
 
-class MenuPage extends StatelessWidget {
   final List<ItemDestination> itemsWithDestinations = [
     ItemDestination(
       item: Item(
@@ -64,64 +67,101 @@ class MenuPage extends StatelessWidget {
       destinationPage: DiaCumple(),
     ),
   ];
+}
+
+
+class _MenuPageState extends State<MenuPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToNextItem() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    _scrollController.animateTo(
+      _scrollController.offset + screenWidth,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _scrollToPreviousItem() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    _scrollController.animateTo(
+      _scrollController.offset - screenWidth,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width; // Obtén el ancho de la pantalla
+
     return Container(
-      color: Colors.black, // fondo de color negro
+      color: Colors.black,
       child: Scaffold(
-        backgroundColor: Colors.transparent, // Hace que el fondo del Scaffold sea transparente
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Padding(
-            padding: EdgeInsets.only(left: 60.0), // Añade margen a la izquierda del título
-            child: Text(
-              'Menu',
-              style: TextStyle(
-                fontFamily: 'Exo',
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 24.0,
-              ),
-            ),
+            padding: EdgeInsets.only(left: 60.0),
+            child: Text('Menu', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
           ),
-          backgroundColor: Colors.blue[900], // Cambia el color de fondo de la AppBar a azul
+          backgroundColor: Colors.blue[900],
           actions: <Widget>[
             IconButton(
-              icon: Text(
-                'T.C',
-                style: TextStyle(
-                  fontFamily: 'Exo',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white, // Color blanco para el texto
-                  fontSize: 24.0, // Aumenta el tamaño del texto
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TermsAndConditionsScreen(),
-                ));
-              },
+              icon: Text('T.C', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => TermsAndConditionsScreen())),
             ),
           ],
-          automaticallyImplyLeading: false, // Esto quita el botón de retroceder
+          automaticallyImplyLeading: false,
         ),
-        body: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: itemsWithDestinations.length,
-          itemBuilder: (context, index) {
-            final itemDestination = itemsWithDestinations[index];
-            return GestureDetector(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => itemDestination.destinationPage,
-              )),
-              child: ItemCard(
-                item: itemDestination.item,
-                destinationPage: itemDestination.destinationPage,
+        body: Stack(
+          children: <Widget>[
+            ListView.builder(
+              controller: _scrollController,
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.itemsWithDestinations.length,
+              itemBuilder: (context, index) {
+                final itemDestination = widget.itemsWithDestinations[index];
+                return Container(
+                  width: screenWidth, // Cada ítem tiene el ancho de la pantalla
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => itemDestination.destinationPage)),
+                    child: ItemCard(
+                      item: itemDestination.item,
+                      destinationPage: itemDestination.destinationPage,
+                    ),
+                  ),
+                );
+              },
+            ),
+            if (kIsWeb) ...[
+              Positioned(
+                left: 10,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back_ios, color: Colors.white54),
+                    onPressed: _scrollToPreviousItem,
+                  ),
+                ),
               ),
-            );
-          },
+              Positioned(
+                right: 10,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_forward_ios, color: Colors.white54),
+                    onPressed: _scrollToNextItem,
+                  ),
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );
   }
 }
+
+
