@@ -157,7 +157,24 @@ class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin
             child: Center( // Alinea el texto al centro
               child: Text(
                 item.description, // Descripción del item
-                style: TextStyle(color: Colors.white, fontFamily: 'Exo', fontWeight: FontWeight.bold, fontSize: 20.0), // Aumenta el tamaño de la letra y cambia la fuente a 'Exo Bold'
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Exo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(2.0, 2.0),
+                      blurRadius: 3.0,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    Shadow(
+                      offset: Offset(2.0, 2.0),
+                      blurRadius: 8.0,
+                      color: Color.fromARGB(125, 0, 0, 255),
+                    ),
+                  ],
+                ), // Aumenta el tamaño de la letra y cambia la fuente a 'Exo Bold'
                 textAlign: TextAlign.center, // Alinea el texto al centro
               ),
             ),
