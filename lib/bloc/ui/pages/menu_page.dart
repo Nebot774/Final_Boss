@@ -73,6 +73,24 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   final ScrollController _scrollController = ScrollController();
 
+  //precargar iamgenes
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(AssetImage('assets/imagenes/i_menu/i_dia.png'), context);
+    precacheImage(AssetImage('assets/imagenes/i_menu/asteroidecer.png'), context);
+    precacheImage(AssetImage('assets/imagenes/i_menu/mrover.png'), context);
+    precacheImage(AssetImage('assets/imagenes/i_menu/astronauta.png'), context);
+    precacheImage(AssetImage('assets/imagenes/i_menu/tierra.png'), context);
+    precacheImage(AssetImage('assets/imagenes/i_menu/satu.png'), context);
+  }
+
   void _scrollToNextItem() {
     final screenWidth = MediaQuery.of(context).size.width;
     _scrollController.animateTo(
