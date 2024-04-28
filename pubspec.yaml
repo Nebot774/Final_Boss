@@ -31,7 +31,7 @@ dependencies:
   flutter_screenutil: ^5.1.1
   flutter:
     sdk: flutter
-
+  http: ^0.13.3
 
 
 
