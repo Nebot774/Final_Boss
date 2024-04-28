@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/menu_page.dart'; // Asegúrate de que esta es la ruta correcta para tu archivo menu_page.dart
-import 'package:final_boss/bloc/ui/pages/home_page.dart';
+import 'package:final_boss/ui/pages/menu_page.dart'; // Asegúrate de que esta es la ruta correcta para tu archivo menu_page.dart
+import 'package:final_boss/ui/pages/home_page.dart';
 
 class TermsAndConditionsScreen extends StatefulWidget {
   @override

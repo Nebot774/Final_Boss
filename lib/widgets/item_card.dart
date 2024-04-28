@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/models/item.dart';
-import 'package:final_boss/bloc/animations/rotation_y_transition.dart';
+import 'package:final_boss/models/item.dart';
+import 'package:final_boss/animations/rotation_y_transition.dart';
 import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';

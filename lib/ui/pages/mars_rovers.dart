@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
-import 'package:final_boss/bloc/models/ItemRover.dart';
-import 'package:final_boss/bloc/ui/pages/rovers/curiosity/curiosityRover.dart';
-import 'package:final_boss/bloc/ui/pages/rovers/opportunity/opportunityRover.dart';
-import 'package:final_boss/bloc/ui/pages/rovers/spirit/spiritRover.dart';
-import 'package:final_boss/bloc/widgets/item_card_rover.dart';
+import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/models/ItemRover.dart';
+import 'package:final_boss/ui/pages/rovers/curiosity/curiosityRover.dart';
+import 'package:final_boss/ui/pages/rovers/opportunity/opportunityRover.dart';
+import 'package:final_boss/ui/pages/rovers/spirit/spiritRover.dart';
+import 'package:final_boss/widgets/item_card_rover.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 

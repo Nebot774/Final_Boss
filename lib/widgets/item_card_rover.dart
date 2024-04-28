@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/models/ItemRover.dart';
+import 'package:final_boss/models/ItemRover.dart';
 
 class ItemCardRover extends StatelessWidget {
   final ItemRover itemRover;

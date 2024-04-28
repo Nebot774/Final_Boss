@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 
-class TierraDesdeEspacio extends StatelessWidget {
+class DiaCumple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +10,7 @@ class TierraDesdeEspacio extends StatelessWidget {
         title: Padding(
           padding: EdgeInsets.only(left: 0.0), // Añade margen a la izquierda del título
           child: Text(
-            'Imágenes de la Tierra desde el Espacio',
+            'Imagen del Día de tu Cumpleaños',
             style: TextStyle(
               fontFamily: 'Exo',
               fontWeight: FontWeight.bold,
@@ -42,7 +42,7 @@ class TierraDesdeEspacio extends StatelessWidget {
       body: Container(
         color: Colors.black, // Cambia el color de fondo a negro
         child: Center(
-          child: Text(''),
+          child: Text('Aquí se mostrará la imagen del día.'),
         ),
       ),
     );

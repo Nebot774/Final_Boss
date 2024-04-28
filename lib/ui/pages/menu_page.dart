@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/models/item.dart';
+import 'package:final_boss/models/item.dart';
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/models/ItemDestination.dart';
-import 'package:final_boss/bloc/widgets/item_card.dart';
-import 'package:final_boss/bloc/ui/pages/imagen_del_dia.dart';
-import 'package:final_boss/bloc/ui/pages/asteroides_cercanos.dart';
-import 'package:final_boss/bloc/ui/pages/mars_rovers.dart';
-import 'package:final_boss/bloc/ui/pages/galeria_nasa.dart';
-import 'package:final_boss/bloc/ui/pages/tierra_desde_espacio.dart';
-import 'package:final_boss/bloc/ui/pages/dia_cumple.dart';
+import 'package:final_boss/models/ItemDestination.dart';
+import 'package:final_boss/widgets/item_card.dart';
+import 'package:final_boss/ui/pages/imagen_del_dia.dart';
+import 'package:final_boss/ui/pages/asteroides_cercanos.dart';
+import 'package:final_boss/ui/pages/mars_rovers.dart';
+import 'package:final_boss/ui/pages/galeria_nasa.dart';
+import 'package:final_boss/ui/pages/tierra_desde_espacio.dart';
+import 'package:final_boss/ui/pages/dia_cumple.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class MenuPage extends StatefulWidget {

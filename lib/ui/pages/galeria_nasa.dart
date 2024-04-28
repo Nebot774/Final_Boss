@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 
 class GaleriaNasa extends StatelessWidget {
   @override

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/ui/pages/rovers/spirit/inf_spirit.dart';
+import 'package:final_boss/ui/pages/rovers/spirit/spirit_rover_api.dart';
 
-import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/rovers/opportunity/inf_opportunity.dart'; // Reemplaza con la ruta correcta a tu pantalla del rover
-import 'package:final_boss/bloc/ui/pages/rovers/opportunity/opportunity_rover_api.dart';
 
-class OpportunityPage extends StatefulWidget {
+class SpiritPage extends StatefulWidget {
   @override
-  _OpportunityPageState createState() => _OpportunityPageState();
+  _SpiritPageState createState() => _SpiritPageState();
 }
 
-class _OpportunityPageState extends State<OpportunityPage> {
+class _SpiritPageState extends State<SpiritPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    OpportunityRover(), // Reemplazar con la pantalla del rover Opportunity
-    InformationOpportunity(), // Pantalla de información
+    SpiritRover(), // Reemplazar con la pantalla del rover Spirit
+    InformationSpirit(), // Pantalla de información
   ];
 
   void _onItemTapped(int index) {
@@ -32,7 +31,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
         title: Padding(
           padding: EdgeInsets.only(left: 0.0), // Añade margen a la izquierda del título
           child: Text(
-            'Opportunity',
+            'Spirit',
             style: TextStyle(
               fontFamily: 'Exo',
               fontWeight: FontWeight.bold,

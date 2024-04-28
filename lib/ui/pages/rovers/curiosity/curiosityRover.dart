@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 import 'package:flutter/material.dart';
 
 // Asegúrate de tener las siguientes clases definidas en tu proyecto
-import 'package:final_boss/bloc/ui/pages/rovers/curiosity/curiosity_rover_api.dart'; // Reemplaza con la ruta correcta a tu pantalla del rover
-import 'package:final_boss/bloc/ui/pages/rovers/curiosity/inf_curiosity.dart';  // Reemplaza con la ruta correcta a tu pantalla de información
+import 'package:final_boss/ui/pages/rovers/curiosity/curiosity_rover_api.dart'; // Reemplaza con la ruta correcta a tu pantalla del rover
+import 'package:final_boss/ui/pages/rovers/curiosity/inf_curiosity.dart';  // Reemplaza con la ruta correcta a tu pantalla de información
 
 class CuriosityPage extends StatefulWidget {
   @override

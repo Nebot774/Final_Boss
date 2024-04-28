@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:final_boss/bloc/ui/pages/terms_and_conditions_screen.dart';
+import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 
-class DiaCumple extends StatelessWidget {
+class ImagenDelDia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +10,7 @@ class DiaCumple extends StatelessWidget {
         title: Padding(
           padding: EdgeInsets.only(left: 0.0), // Añade margen a la izquierda del título
           child: Text(
-            'Imagen del Día de tu Cumpleaños',
+            'Imagen del Día',
             style: TextStyle(
               fontFamily: 'Exo',
               fontWeight: FontWeight.bold,

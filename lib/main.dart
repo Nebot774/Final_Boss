@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'bloc/ui/pages/home_page.dart'; // Asegúrate de que esta ruta de importación sea correcta
-import 'package:final_boss/bloc/ui/pages/menu_page.dart';
-import 'package:final_boss/bloc/ui/pages/mars_rovers.dart';
-import 'package:final_boss/bloc/ui/pages/galeria_nasa.dart';
+import 'ui/pages/home_page.dart'; // Asegúrate de que esta ruta de importación sea correcta
+import 'package:final_boss/ui/pages/menu_page.dart';
+import 'package:final_boss/ui/pages/mars_rovers.dart';
+import 'package:final_boss/ui/pages/galeria_nasa.dart';
 
 void main() {
   runApp(const MyApp());
