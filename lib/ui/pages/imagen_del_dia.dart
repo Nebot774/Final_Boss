@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../bloc/blocs/apod_bloc.dart';
 import '../../bloc/events/apod_event.dart';
 import '../../bloc/states/apod_state.dart';
@@ -71,7 +72,21 @@ class ImagenDelDia extends StatelessWidget {
                 Text('Versión del servicio: ${state.apodData.serviceVersion ?? 'No disponible'}'),
                 Text('Título: ${state.apodData.title ?? 'No disponible'}'),
                 (state.apodData.url != null)
-                    ? Image.network(state.apodData.url!)
+                    ? CachedNetworkImage(
+                  imageUrl: state.apodData.url!,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) {
+                    print('Error al cargar la imagen: $error');
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.error),
+                        SizedBox(height: 10),
+                        Text('Error al cargar la imagen.'),
+                      ],
+                    );
+                  },
+                )
                     : Text('URL de la imagen no disponible'),
                 Text('Derechos de autor: ${state.apodData.copyright ?? 'No disponible'}'),
               ],
