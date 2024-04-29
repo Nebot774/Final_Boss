@@ -5,7 +5,7 @@ import '../models/ApodData.dart';
 
 
 class ApodRepository {
-  final String baseUrl = 'http://localhost:8080/api';
+  final String baseUrl = 'http://localhost:8080/api/nasa';
 
   Future<ApodData> fetchApodData() async {
     final response = await http.get(Uri.parse('$baseUrl/apod'));
