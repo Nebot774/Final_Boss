@@ -65,13 +65,15 @@ class ImagenDelDia extends StatelessWidget {
             return ListView(
               padding: const EdgeInsets.all(8),
               children: <Widget>[
-                Text('Fecha: ${state.apodData.date}'),
-                Text('Explicación: ${state.apodData.explanation}'),
-                Text('Tipo de medio: ${state.apodData.mediaType}'),
-                Text('Versión del servicio: ${state.apodData.serviceVersion}'),
-                Text('Título: ${state.apodData.title}'),
-                Image.network(state.apodData.url),
-                Text('Derechos de autor: ${state.apodData.copyright}'),
+                Text('Fecha: ${state.apodData.date ?? 'No disponible'}'),
+                Text('Explicación: ${state.apodData.explanation ?? 'No disponible'}'),
+                Text('Tipo de medio: ${state.apodData.mediaType ?? 'No disponible'}'),
+                Text('Versión del servicio: ${state.apodData.serviceVersion ?? 'No disponible'}'),
+                Text('Título: ${state.apodData.title ?? 'No disponible'}'),
+                (state.apodData.url != null)
+                    ? Image.network(state.apodData.url!)
+                    : Text('URL de la imagen no disponible'),
+                Text('Derechos de autor: ${state.apodData.copyright ?? 'No disponible'}'),
               ],
             );
           } else if (state is ApodError) {
