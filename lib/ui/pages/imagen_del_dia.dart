@@ -7,52 +7,27 @@ import '../../bloc/blocs/apod_bloc.dart';
 import '../../bloc/events/apod_event.dart';
 import '../../bloc/states/apod_state.dart';
 
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 class ImagenDelDia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Obtén la instancia del BLoC
     final apodBloc = BlocProvider.of<ApodBloc>(context);
 
-    // Imprime el valor de apodBloc
-    print('Valor de apodBloc: $apodBloc');
-
-    // Dispara el evento para obtener los datos después de que el widget se haya construido completamente
     WidgetsBinding.instance.addPostFrameCallback((_) {
       apodBloc.add(FetchApodData());
     });
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white), // Cambia el color del icono a blanco
-        title: Padding(
-          padding: EdgeInsets.only(left: 0.0), // Añade margen a la izquierda del título
-          child: Text(
-            'Imagen del Día',
-            style: TextStyle(
-              fontFamily: 'Exo',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize: 24.0,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.blue[900], // Cambia el color de fondo de la AppBar a azul
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text('Imagen del Día', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
+        backgroundColor: Colors.blue[900],
         actions: <Widget>[
           IconButton(
-            icon: Text(
-              'T.C',
-              style: TextStyle(
-                fontFamily: 'Exo',
-                fontWeight: FontWeight.bold,
-                color: Colors.white, // Color blanco para el texto
-                fontSize: 24.0, // Aumenta el tamaño del texto
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TermsAndConditionsScreen(),
-              ));
-            },
+            icon: Text('T.C', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => TermsAndConditionsScreen())),
           ),
         ],
       ),
@@ -63,33 +38,93 @@ class ImagenDelDia extends StatelessWidget {
           } else if (state is ApodLoading) {
             return Center(child: CircularProgressIndicator());
           } else if (state is ApodLoaded) {
-            return ListView(
-              padding: const EdgeInsets.all(8),
-              children: <Widget>[
-                Text('Fecha: ${state.apodData.date ?? 'No disponible'}'),
-                Text('Explicación: ${state.apodData.explanation ?? 'No disponible'}'),
-                Text('Tipo de medio: ${state.apodData.mediaType ?? 'No disponible'}'),
-                Text('Versión del servicio: ${state.apodData.serviceVersion ?? 'No disponible'}'),
-                Text('Título: ${state.apodData.title ?? 'No disponible'}'),
-                (state.apodData.url != null)
-                    ? CachedNetworkImage(
-                  imageUrl: state.apodData.url!,
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) {
-                    print('Error al cargar la imagen: $error');
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.error),
-                        SizedBox(height: 10),
-                        Text('Error al cargar la imagen.'),
+            return Container(
+              color: Colors.black,
+              child: ListView(
+                padding: const EdgeInsets.all(8),
+                children: <Widget>[
+                  Text('${state.apodData.title ?? 'No disponible'}', textAlign: TextAlign.center, style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
+                  Text('Fecha: ${state.apodData.date ?? 'No disponible'}', textAlign: TextAlign.center, style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                    child: AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Scaffold(
+                              backgroundColor: Colors.black,
+                              body: Center(
+                                child: CachedNetworkImage(
+                                  imageUrl: state.apodData.url!,
+                                  fit: BoxFit.contain,
+                                  placeholder: (context, url) => CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [Icon(Icons.error), SizedBox(height: 10), Text('Error al cargar la imagen.')],
+                                  ),
+                                ),
+                              ),
+                              floatingActionButton: FloatingActionButton(
+                                child: Icon(Icons.close, color: Colors.white), // Cambia el ícono a una "X"
+                                backgroundColor: Colors.transparent,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              floatingActionButtonLocation: FloatingActionButtonLocation.endTop, // Mueve el botón a la derecha
+                            ),
+                          ));
+                        },
+                        child: CachedNetworkImage(
+                          imageUrl: state.apodData.url!,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Icon(Icons.error), SizedBox(height: 15), Text('Error al cargar la imagen.')],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start, // Alinea los elementos a la izquierda
+                      children: [
+                        Text('Tipo de medio:', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.0)),
+                        Text('${state.apodData.mediaType ?? 'No disponible'}', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', color: Colors.white, fontSize: 14.0)),
+                        Text('Versión del servicio:', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.0)),
+                        Text('${state.apodData.serviceVersion ?? 'No disponible'}', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', color: Colors.white, fontSize: 14.0)),
+                        Text('Explicación:', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
+                        Text(
+                          '${state.apodData.explanation ?? 'No disponible'}',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontFamily: 'Exo',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 6.0,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                              Shadow(
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 10.0,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
-                    );
-                  },
-                )
-                    : Text('URL de la imagen no disponible'),
-                Text('Derechos de autor: ${state.apodData.copyright ?? 'No disponible'}'),
-              ],
+                    ),
+                  ),
+                ],
+              ),
             );
           } else if (state is ApodError) {
             return Center(child: Text('Error: ${state.message}'));
