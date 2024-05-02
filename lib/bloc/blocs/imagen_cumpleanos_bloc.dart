@@ -20,5 +20,9 @@ class ImagenCumpleanosBloc extends Bloc<ImagenCumpleanosEvent, ImagenCumpleanosS
         emit(ImagenCumpleanosError(message: e.toString()));
       }
     });
+
+    on<ResetImagenCumpleanos>((event, emit) async {
+      emit(ImagenCumpleanosInitial());
+    });
   }
 }

@@ -1,5 +1,6 @@
 
 // lib/bloc/events/imagen_cumpleanos_event.dart
+// lib/bloc/events/imagen_cumpleanos_event.dart
 abstract class ImagenCumpleanosEvent {}
 
 class FetchImagenCumpleanos extends ImagenCumpleanosEvent {
@@ -7,3 +8,5 @@ class FetchImagenCumpleanos extends ImagenCumpleanosEvent {
 
   FetchImagenCumpleanos({required this.fecha});
 }
+
+class ResetImagenCumpleanos extends ImagenCumpleanosEvent {}
