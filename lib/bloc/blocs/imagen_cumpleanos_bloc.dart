@@ -10,22 +10,15 @@ import '../states/imagen_cumpleanos_state.dart';
 class ImagenCumpleanosBloc extends Bloc<ImagenCumpleanosEvent, ImagenCumpleanosState> {
   final ImagenCumpleanosRepository imagenCumpleanosRepository;
 
-  ImagenCumpleanosBloc({required this.imagenCumpleanosRepository}) : super(ImagenCumpleanosInitial());
-
-  @override
-  Stream<ImagenCumpleanosState> mapEventToState(ImagenCumpleanosEvent event) async* {
-    if (event is FetchImagenCumpleanos) {
-      yield ImagenCumpleanosLoading();
+  ImagenCumpleanosBloc({required this.imagenCumpleanosRepository}) : super(ImagenCumpleanosInitial()) {
+    on<FetchImagenCumpleanos>((event, emit) async {
+      emit(ImagenCumpleanosLoading());
       try {
-        final ApodData apodData = await imagenCumpleanosRepository.fetchImagenCumpleanosData(event.fecha);
-        yield ImagenCumpleanosLoaded(apodData: apodData);
-      } catch (_) {
-        yield ImagenCumpleanosError(message: 'Something went wrong');
+        final apodData = await imagenCumpleanosRepository.fetchImagenCumpleanosData(event.fecha);
+        emit(ImagenCumpleanosLoaded(apodData: apodData));
+      } catch (e) {
+        emit(ImagenCumpleanosError(message: e.toString()));
       }
-    }
-    // Asegúrate de que estás devolviendo un Stream<ApodState> en este método
-    else {
-      yield ImagenCumpleanosInitial();
-    }
+    });
   }
 }
