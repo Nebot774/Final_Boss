@@ -1,5 +1,20 @@
 
 class GaleriaData {
+  final List<ItemData> items;
+
+  GaleriaData({required this.items});
+
+  factory GaleriaData.fromJson(Map<String, dynamic> json) {
+    var itemsJson = json['collection']['items'] as List;
+    List<ItemData> itemsList = itemsJson.map((i) => ItemData.fromJson(i)).toList();
+
+    return GaleriaData(
+      items: itemsList,
+    );
+  }
+}
+
+class ItemData {
   final String? center;
   final String? dateCreated;
   final String? description;
@@ -9,7 +24,7 @@ class GaleriaData {
   final List<String>? keywords;
   final String? smallImageUrl;
 
-  GaleriaData({
+  ItemData({
     this.center,
     this.dateCreated,
     this.description,
@@ -20,9 +35,11 @@ class GaleriaData {
     this.smallImageUrl,
   });
 
-  factory GaleriaData.fromJson(Map<String, dynamic> json) {
-    var itemData = json['collection']['items'][0]['data'][0];
-    return GaleriaData(
+  factory ItemData.fromJson(Map<String, dynamic> json) {
+    var itemData = json['data'][0];
+    var smallImageUrl = json['links'] != null && json['links'].isNotEmpty ? json['links'][0]['href'] : null;
+
+    return ItemData(
       center: itemData['center'],
       dateCreated: itemData['dateCreated'],
       description: itemData['description'],
@@ -30,10 +47,7 @@ class GaleriaData {
       nasaId: itemData['nasaId'],
       title: itemData['title'],
       keywords: itemData['keywords'] != null ? List<String>.from(itemData['keywords']) : null,
-      smallImageUrl: json['collection']['items'][0]['links'][0]['href'],
+      smallImageUrl: smallImageUrl,
     );
   }
-
-
-
 }

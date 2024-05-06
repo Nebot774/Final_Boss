@@ -82,40 +82,47 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
           return buildInitialInput();
         } else if (state is GaleriaLoading) {
           return Center(child: CircularProgressIndicator());
-        } else if (state is GaleriaLoaded) {
-          if (state.galeriaData != null && state.galeriaData.smallImageUrl != null && state.galeriaData.smallImageUrl!.isNotEmpty) {
-            return GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Column(
-                        children: [
-                          Image.network(state.galeriaData.smallImageUrl ?? ''),
-                          Text(state.galeriaData.center ?? ''),
-                          Text(state.galeriaData.title ?? ''),
-                          Text(state.galeriaData.description ?? ''),
-                        ],
-                      ),
-                      actions: [
-                        IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.of(context).pop();
+        } else if  (state is GaleriaLoaded) {
+          return ListView.builder(
+            itemCount: state.galeriaData.items.length,
+            itemBuilder: (context, index) {
+              var item = state.galeriaData.items[index];
+              return Column(
+                children: <Widget>[
+                  if (item.smallImageUrl != null && item.smallImageUrl!.isNotEmpty)
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Image.network(item.smallImageUrl!),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: Text('Close'),
+                                ),
+                              ],
+                            );
                           },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Image.network(state.galeriaData.smallImageUrl ?? ''),
-            );
-          } else {
-            return Text('No data available');
-          }
-        } else if (state is GaleriaError) {
+                        );
+                      },
+                      child: Image.network(item.smallImageUrl!),
+                    )
+                  else
+                    Text('No image available'),
+                  if (item.description != null && item.description!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(item.description!),
+                    )
+                  else
+                    Text('No description available'),
+                ],
+              );
+            },
+          );
+        }else if (state is GaleriaError) {
           return Center(child: Text('Error: ${state.message}'));
         } else {
           return Center(child: Text('Estado desconocido'));
@@ -123,6 +130,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
       },
     );
   }
+
 
 
   Widget buildInitialInput() {

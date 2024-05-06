@@ -10,6 +10,7 @@ class GaleriaRepository {
 
     if (response.statusCode == 200) {
       print('Response data: ${response.body}'); // Imprime los datos de la respuesta
+      print('Processing data...'); // Agrega esta línea
       return GaleriaData.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load default gallery data');
