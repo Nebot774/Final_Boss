@@ -39,6 +39,8 @@ class ItemData {
     var itemData = json['data'][0];
     var smallImageUrl = json['links'] != null && json['links'].isNotEmpty ? json['links'][0]['href'] : null;
 
+    print('smallImageUrl: $smallImageUrl'); // Imprime el valor de smallImageUrl en la consola
+
     return ItemData(
       center: itemData['center'],
       dateCreated: itemData['dateCreated'],

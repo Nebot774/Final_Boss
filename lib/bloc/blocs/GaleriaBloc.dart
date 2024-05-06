@@ -10,10 +10,13 @@ class GaleriaBloc extends Bloc<GaleriaEvent, GaleriaState> {
   final GaleriaRepository galeriaRepository;
 
   GaleriaBloc({required this.galeriaRepository}) : super(GaleriaInitial()) {
+
+
     on<FetchGaleriaData>((event, emit) async {
       emit(GaleriaLoading());
       try {
         final GaleriaData galeriaData = await galeriaRepository.fetchGaleriaData(event.query, event.startDate, event.endDate, event.mediaType);
+        print('GaleriaData: ${galeriaData.items}'); // Imprime los datos de la galería
         emit(GaleriaLoaded(galeriaData: galeriaData));
       } catch (e) {
         print(e); // Imprime el error en la consola
@@ -26,6 +29,7 @@ class GaleriaBloc extends Bloc<GaleriaEvent, GaleriaState> {
       print('Loading gallery...'); // Agrega esta línea
       try {
         final GaleriaData galeriaData = await galeriaRepository.fetchGaleriaDefectoData();
+        print('GaleriaData: ${galeriaData.items}'); // Imprime los datos de la galería
         emit(GaleriaLoaded(galeriaData: galeriaData));
       } catch (e) {
         print(e); // Imprime el error en la consola

@@ -87,6 +87,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
             itemCount: state.galeriaData.items.length,
             itemBuilder: (context, index) {
               var item = state.galeriaData.items[index];
+              print('ItemData: $item'); // Imprime los datos del ItemData en la consola
               return Column(
                 children: <Widget>[
                   if (item.smallImageUrl != null && item.smallImageUrl!.isNotEmpty)
