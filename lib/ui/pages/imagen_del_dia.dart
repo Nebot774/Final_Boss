@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../bloc/blocs/apod_bloc.dart';
 import '../../bloc/events/apod_event.dart';
 import '../../bloc/states/apod_state.dart';
-
+import 'package:translator/translator.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

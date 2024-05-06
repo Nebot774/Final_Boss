@@ -178,7 +178,28 @@ class _DiaCumpleState extends State<DiaCumple> {
                         Text('${state.apodData.copyright ?? 'No disponible'}', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', color: Colors.white, fontSize: 14.0)),
                         Text('URL:', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.0)),
                         Text('${state.apodData.url ?? 'No disponible'}', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', color: Colors.white, fontSize: 14.0)),
-                        Text('Explicación:', textAlign: TextAlign.left, style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24.0)),
+                        Text(
+                          '${state.apodData.explanation ?? 'No disponible'}',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontFamily: 'Exo',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 6.0,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                              Shadow(
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 10.0,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ],
+                          ),
+                        ),
                         Text(
                           '${state.apodData.explanation ?? 'No disponible'}',
                           textAlign: TextAlign.left,
