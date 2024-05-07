@@ -12,7 +12,7 @@ class GaleriaNasa extends StatefulWidget {
   _GaleriaNasaState createState() => _GaleriaNasaState();
 }
 
-enum InputState { initial, personalized, defaultState } // Cambiado 'default' a 'defaultState'
+enum InputState { initial, personalized, personalizedLoaded, defaultState } // Cambiado 'default' a 'defaultState'
 
 class _GaleriaNasaState extends State<GaleriaNasa> {
   TextEditingController _queryController = TextEditingController();
@@ -88,8 +88,22 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
     switch (_inputState) {
       case InputState.initial:
         return buildInitialButtons();
-      case InputState.personalized:
+      case InputState.personalized: // Nuevo caso
         return buildPersonalizedInput();
+      case InputState.personalizedLoaded:
+        return BlocBuilder<GaleriaBloc, GaleriaState>(
+          builder: (context, state) {
+            if (state is GaleriaLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is GaleriaLoaded) {
+              return buildResults(state.galeriaData);
+            } else if (state is GaleriaError) {
+              return Center(child: Text('Error: ${state.message}'));
+            } else {
+              return Center(child: Text('Estado desconocido'));
+            }
+          },
+        );
       case InputState.defaultState:
         return BlocBuilder<GaleriaBloc, GaleriaState>(
           builder: (context, state) {
@@ -182,7 +196,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
     );
   }
 
-  Widget buildPersonalizedInput() {
+  Widget buildPersonalizedInput([GaleriaData? galeriaData]) {
     return Center(
       child: Container(
         padding: EdgeInsets.all(20),
@@ -235,18 +249,22 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
             ),
             ElevatedButton(
               onPressed: () {
+                int numResults = int.parse(_numResultsController.text); // Convierte el texto a un entero
                 BlocProvider.of<GaleriaBloc>(context).add(
                     FetchGaleriaData(
                       query: _queryController.text,
                       startDate: _startDateController.text,
                       endDate: _endDateController.text,
                       mediaType: _selectedMediaType,
+                      numResults: numResults, // Añade el parámetro numResults
                     )
                 );
+                setState(() {
+                  _inputState = InputState.personalizedLoaded; // Cambia el estado a personalizedLoaded
+                });
               },
               child: Text('Buscar'),
             ),
-
           ],
         ),
       ),
@@ -254,6 +272,49 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
   }
 
 
+  Widget buildResults(GaleriaData galeriaData) {
+    return ListView.builder(
+      itemCount: galeriaData.items.length,
+      itemBuilder: (context, index) {
+        var item = galeriaData.items[index];
+        var smallImageUrl = item.imageLinks?.firstWhere((link) => link.endsWith('small.jpg'), orElse: () => '') ?? '';
+
+        return Column(
+          children: <Widget>[
+            if (smallImageUrl != null && smallImageUrl.isNotEmpty)
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Image.network(smallImageUrl),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text('Close'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Image.network(smallImageUrl),
+              )
+            else
+              Text('No image available'),
+            if (item.description != null && item.description!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(item.description!),
+              )
+            else
+              Text('No description available'),
+          ],
+        );
+      },
+    );
+  }
 
 
 }

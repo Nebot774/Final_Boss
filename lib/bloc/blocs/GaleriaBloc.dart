@@ -14,13 +14,12 @@ class GaleriaBloc extends Bloc<GaleriaEvent, GaleriaState> {
     on<FetchGaleriaData>((event, emit) async {
       emit(GaleriaLoading());
       try {
-        final GaleriaData galeriaData = await galeriaRepository.fetchGaleriaData(event.query, event.startDate, event.endDate, event.mediaType);
-        emit(GaleriaLoaded(galeriaData: galeriaData));
+        final GaleriaData galeriaData = await galeriaRepository.fetchGaleriaData(event.query, event.startDate, event.endDate, event.mediaType, event.numResults);
+        emit(GaleriaLoaded(galeriaData: galeriaData)); // Emite un nuevo estado con los datos de la galería
       } catch (e) {
         emit(GaleriaError(message: e.toString()));
       }
     });
-
     on<FetchGaleriaDefectoData>((event, emit) async {
       emit(GaleriaLoading());
       try {

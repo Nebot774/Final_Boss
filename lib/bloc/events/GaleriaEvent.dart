@@ -7,8 +7,9 @@ class FetchGaleriaData extends GaleriaEvent {
   final String startDate;
   final String endDate;
   final String mediaType;
+  final int numResults; // Nuevo parámetro
 
-  FetchGaleriaData({required this.query, required this.startDate, required this.endDate, required this.mediaType});
+  FetchGaleriaData({required this.query, required this.startDate, required this.endDate, required this.mediaType, required this.numResults});
 }
 
 class FetchGaleriaDefectoData extends GaleriaEvent {}

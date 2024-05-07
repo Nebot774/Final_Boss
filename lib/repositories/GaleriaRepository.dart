@@ -17,8 +17,8 @@ class GaleriaRepository {
     }
   }
 
-  Future<GaleriaData> fetchGaleriaData(String query, String startDate, String endDate, String mediaType) async {
-    final response = await http.get(Uri.parse('$baseUrl/galeria?query=$query&start_date=$startDate&end_date=$endDate&media_type=$mediaType'));
+  Future<GaleriaData> fetchGaleriaData(String query, String startDate, String endDate, String mediaType, int numResults) async {
+    final response = await http.get(Uri.parse('$baseUrl/galeria?query=$query&start_date=$startDate&end_date=$endDate&media_type=$mediaType&num_results=$numResults'));
 
     if (response.statusCode == 200) {
       return GaleriaData.fromJson(jsonDecode(response.body));
