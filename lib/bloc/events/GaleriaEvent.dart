@@ -13,3 +13,5 @@ class FetchGaleriaData extends GaleriaEvent {
 }
 
 class FetchGaleriaDefectoData extends GaleriaEvent {}
+
+class ResetGaleria extends GaleriaEvent {}

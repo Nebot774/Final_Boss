@@ -6,6 +6,7 @@ import '../../bloc/blocs/GaleriaBloc.dart';
 import '../../bloc/events/GaleriaEvent.dart';
 import '../../bloc/states/GaleriaState.dart';
 import '../../models/GaleriaData.dart';
+import 'menu_page.dart';
 
 class GaleriaNasa extends StatefulWidget {
   @override
@@ -36,6 +37,13 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            BlocProvider.of<GaleriaBloc>(context).add(ResetGaleria()); // Evento para resetear el estado del bloc
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MenuPage()));
+          },
+        ),
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
           'Galería de Imágenes y Vídeos de la NASA',

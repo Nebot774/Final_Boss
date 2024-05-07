@@ -29,5 +29,12 @@ class GaleriaBloc extends Bloc<GaleriaEvent, GaleriaState> {
         emit(GaleriaError(message: e.toString()));
       }
     });
+
+    on<ResetGaleria>((event, emit) async {
+      emit(GaleriaInitial());
+    });
+
+
   }
+
 }
