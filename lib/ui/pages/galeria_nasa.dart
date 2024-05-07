@@ -5,17 +5,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/blocs/GaleriaBloc.dart';
 import '../../bloc/events/GaleriaEvent.dart';
 import '../../bloc/states/GaleriaState.dart';
+import '../../models/GaleriaData.dart';
 
 class GaleriaNasa extends StatefulWidget {
   @override
   _GaleriaNasaState createState() => _GaleriaNasaState();
 }
 
+enum InputState { initial, personalized, defaultState } // Cambiado 'default' a 'defaultState'
+
 class _GaleriaNasaState extends State<GaleriaNasa> {
   TextEditingController _queryController = TextEditingController();
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
+  TextEditingController _numResultsController = TextEditingController(); // Nuevo controlador
   String _selectedMediaType = 'Todos'; // Valor inicial
+
+  InputState _inputState = InputState.initial; // Nuevo estado
 
   @override
   void dispose() {
@@ -68,7 +74,10 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
           _queryController.clear();
           _startDateController.clear();
           _endDateController.clear();
-          // Opcional: Agregar lógica para reiniciar la búsqueda o estado
+          // Cambiar el estado para mostrar buildInitialButtons()
+          setState(() {
+            _inputState = InputState.initial;
+          });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -76,65 +85,104 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
   }
 
   Widget buildBody() {
-    return BlocBuilder<GaleriaBloc, GaleriaState>(
-      builder: (context, state) {
-        if (state is GaleriaInitial) {
-          return buildInitialInput();
-        } else if (state is GaleriaLoading) {
-          return Center(child: CircularProgressIndicator());
-        } else if  (state is GaleriaLoaded) {
-          return ListView.builder(
-            itemCount: state.galeriaData.items.length,
-            itemBuilder: (context, index) {
-              var item = state.galeriaData.items[index];
-              print('ItemData: $item'); // Imprime los datos del ItemData en la consola
-              return Column(
-                children: <Widget>[
-                  if (item.smallImageUrl != null && item.smallImageUrl!.isNotEmpty)
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              content: Image.network(item.smallImageUrl!),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: Text('Close'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      child: Image.network(item.smallImageUrl!),
-                    )
-                  else
-                    Text('No image available'),
-                  if (item.description != null && item.description!.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(item.description!),
-                    )
-                  else
-                    Text('No description available'),
-                ],
-              );
-            },
-          );
-        }else if (state is GaleriaError) {
-          return Center(child: Text('Error: ${state.message}'));
-        } else {
-          return Center(child: Text('Estado desconocido'));
-        }
-      },
-    );
+    switch (_inputState) {
+      case InputState.initial:
+        return buildInitialButtons();
+      case InputState.personalized:
+        return buildPersonalizedInput();
+      case InputState.defaultState:
+        return BlocBuilder<GaleriaBloc, GaleriaState>(
+          builder: (context, state) {
+            if (state is GaleriaLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is GaleriaDefectoLoaded) {
+              return buildDefaultInput(state.galeriaData);
+            } else if (state is GaleriaError) {
+              return Center(child: Text('Error: ${state.message}'));
+            } else {
+              return Center(child: Text('Estado desconocido'));
+            }
+          },
+        );
+      default:
+        return Container();  // Manejador por defecto para estados no reconocidos
+    }
   }
 
 
 
-  Widget buildInitialInput() {
+  Widget buildInitialButtons() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _inputState = InputState.personalized;
+              });
+            },
+            child: Text('Busqueda Personalizada'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _inputState = InputState.defaultState;
+              });
+              BlocProvider.of<GaleriaBloc>(context).add(FetchGaleriaDefectoData());
+            },
+            child: Text('Búsqueda por Defecto'),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildDefaultInput(GaleriaData galeriaData) {
+    return ListView.builder(
+      itemCount: galeriaData.items.length,
+      itemBuilder: (context, index) {
+        var item = galeriaData.items[index];
+        var smallImageUrl = item.imageLinks?.firstWhere((link) => link.endsWith('small.jpg'), orElse: () => '') ?? '';
+
+        return Column(
+          children: <Widget>[
+            if (smallImageUrl != null && smallImageUrl.isNotEmpty)
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Image.network(smallImageUrl),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text('Close'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Image.network(smallImageUrl),
+              )
+            else
+              Text('No image available'),
+            if (item.description != null && item.description!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(item.description!),
+              )
+            else
+              Text('No description available'),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildPersonalizedInput() {
     return Center(
       child: Container(
         padding: EdgeInsets.all(20),
@@ -161,6 +209,14 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
                 labelText: 'Fecha de fin (YYYY-MM-DD)',
                 hintText: 'Ej. 1969-07-24',
               ),
+            ),
+            TextField(
+              controller: _numResultsController, // Asegúrate de inicializar este controlador
+              decoration: InputDecoration(
+                labelText: 'Número de resultados',
+                hintText: 'Ej. 10',
+              ),
+              keyboardType: TextInputType.number, // Para permitir solo la entrada de números
             ),
             DropdownButton<String>(
               value: _selectedMediaType,
@@ -190,17 +246,14 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
               },
               child: Text('Buscar'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                BlocProvider.of<GaleriaBloc>(context).add(
-                    FetchGaleriaDefectoData()
-                );
-              },
-              child: Text('Búsqueda por Defecto'),
-            ),
+
           ],
         ),
       ),
     );
   }
+
+
+
+
 }

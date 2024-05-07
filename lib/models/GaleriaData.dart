@@ -22,7 +22,7 @@ class ItemData {
   final String? nasaId;
   final String? title;
   final List<String>? keywords;
-  final String? smallImageUrl;
+  final List<String>? imageLinks; // Nuevo campo para los enlaces de las imágenes
 
   ItemData({
     this.center,
@@ -32,14 +32,17 @@ class ItemData {
     this.nasaId,
     this.title,
     this.keywords,
-    this.smallImageUrl,
+    this.imageLinks, // Incluye el nuevo campo en el constructor
   });
 
   factory ItemData.fromJson(Map<String, dynamic> json) {
     var itemData = json['data'][0];
-    var smallImageUrl = json['links'] != null && json['links'].isNotEmpty ? json['links'][0]['href'] : null;
+    var imageLinks = json['imageLinks'] != null ? List<String>.from(json['imageLinks']) : null; // Procesa el nuevo campo
 
-    print('smallImageUrl: $smallImageUrl'); // Imprime el valor de smallImageUrl en la consola
+    // Filtra la lista para obtener la URL que termina en small.jpg
+    var smallImageUrl = imageLinks != null ? imageLinks.firstWhere((link) => link.endsWith('small.jpg')) : null;
+
+    print('smallImageUrl: $smallImageUrl'); // Imprime el enlace de la imagen pequeña en la consola
 
     return ItemData(
       center: itemData['center'],
@@ -49,7 +52,9 @@ class ItemData {
       nasaId: itemData['nasaId'],
       title: itemData['title'],
       keywords: itemData['keywords'] != null ? List<String>.from(itemData['keywords']) : null,
-      smallImageUrl: smallImageUrl,
+      imageLinks: imageLinks, // Asigna el nuevo campo
     );
   }
+
+
 }

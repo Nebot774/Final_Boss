@@ -13,6 +13,12 @@ class GaleriaLoaded extends GaleriaState {
   GaleriaLoaded({required this.galeriaData});
 }
 
+class GaleriaDefectoLoaded extends GaleriaState { // Nuevo estado
+  final GaleriaData galeriaData;
+
+  GaleriaDefectoLoaded({required this.galeriaData});
+}
+
 class GaleriaError extends GaleriaState {
   final String message;
 
