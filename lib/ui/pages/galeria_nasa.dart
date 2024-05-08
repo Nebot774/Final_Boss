@@ -75,7 +75,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
         ],
       ),
       body: buildBody(),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _inputState != InputState.initial ? FloatingActionButton(
         backgroundColor: Colors.blue[900],
         child: Icon(Icons.search),
         onPressed: () {
@@ -87,7 +87,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
             _inputState = InputState.initial;
           });
         },
-      ),
+      ) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }

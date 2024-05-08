@@ -54,6 +54,7 @@ flutter:
     - assets/imagenes/i_home/
     - assets/imagenes/i_menu/
     - assets/imagenes/i_rovers_menu/
+    - assets/imagenes/i_galeria/
   fonts:
     - family: Exo
       fonts:
