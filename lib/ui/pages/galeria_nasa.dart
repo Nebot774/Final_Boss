@@ -36,6 +36,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -135,27 +136,48 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
 
   Widget buildInitialButtons() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _inputState = InputState.personalized;
-              });
-            },
-            child: Text('Busqueda Personalizada'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _inputState = InputState.defaultState;
-              });
-              BlocProvider.of<GaleriaBloc>(context).add(FetchGaleriaDefectoData());
-            },
-            child: Text('Búsqueda por Defecto'),
-          )
-        ],
+      child: Container(
+        decoration: BoxDecoration(
+
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue[900], // color del botón
+                onPrimary: Colors.white, // color del texto
+                textStyle: TextStyle(
+                  fontFamily: 'Exo',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  _inputState = InputState.personalized;
+                });
+              },
+              child: Text('Busqueda Personalizada'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue[900], // color del botón
+                onPrimary: Colors.white, // color del texto
+                textStyle: TextStyle(
+                  fontFamily: 'Exo',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  _inputState = InputState.defaultState;
+                });
+                BlocProvider.of<GaleriaBloc>(context).add(FetchGaleriaDefectoData());
+              },
+              child: Text('Búsqueda por Defecto'),
+            )
+          ],
+        ),
       ),
     );
   }
