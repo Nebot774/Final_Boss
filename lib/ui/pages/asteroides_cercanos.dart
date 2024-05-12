@@ -110,6 +110,9 @@ class _InicioWidgetState extends State<InicioWidget> {
                                 print('Error: $e');
                               }
                             },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.blue[900]!),
+                            ),
                             child: Text(
                               'Buscar',
                               style: TextStyle(
@@ -177,6 +180,9 @@ class _InicioWidgetState extends State<InicioWidget> {
                                 print('Error: $e');
                               }
                             },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.blue[900]!),
+                            ),
                             child: Text(
                               'Buscar',
                               style: TextStyle(
