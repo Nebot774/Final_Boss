@@ -17,7 +17,7 @@ class NeoWsNeoBloc extends Bloc<NeoWsNeoEvent, NeoWsNeoState> {
     if (event is FetchNeoWsNeoData) {
       yield NeoWsNeoLoading();
       try {
-        final NeoWsNeoData neowsNeoData = await repository.fetchNeoWsNeoData(event.startDate, event.endDate);
+        final NeoWsNeoData neowsNeoData = await repository.fetchNeoWsNeoData(event.id);
         yield NeoWsNeoLoaded(neowsNeoData: neowsNeoData);
       } catch (e) {
         yield NeoWsNeoError(message: e.toString());

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 
 import '../../models/NeoWsData.dart';
+import '../../models/NeoWsNeoData.dart';
+import '../../repositories/NeoWsNeoRepository.dart';
 import '../../repositories/NeoWsRepository.dart';
 
 class InicioWidget extends StatefulWidget {
@@ -16,6 +18,7 @@ class _InicioWidgetState extends State<InicioWidget> {
   TextEditingController _idController = TextEditingController();
 
   final NeoWsRepository _neoWsRepository = NeoWsRepository();
+  final NeoWsNeoRepository _neoWsNeoRepository = NeoWsNeoRepository();
 
   // Variables para controlar la expansión de los paneles
   bool _isPanel1Expanded = false;
@@ -160,12 +163,20 @@ class _InicioWidgetState extends State<InicioWidget> {
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {
-                              // Aquí va tu código para buscar
+                            onPressed: () async {
+                              if (_idController.text.isEmpty) {
+                                print('El ID no puede estar vacío');
+                                return;
+                              }
+                              try {
+                                NeoWsNeoData data = await _neoWsNeoRepository.fetchNeoWsNeoData(_idController.text);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => NeoWsNeoDataWidget(data),
+                                ));
+                              } catch (e) {
+                                print('Error: $e');
+                              }
                             },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Colors.blue[900]),
-                            ),
                             child: Text(
                               'Buscar',
                               style: TextStyle(
@@ -190,6 +201,58 @@ class _InicioWidgetState extends State<InicioWidget> {
     );
   }
 }
+
+class NeoWsNeoDataWidget extends StatelessWidget {
+  final NeoWsNeoData data;
+
+  NeoWsNeoDataWidget(this.data);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('NeoWsNeo Data'),
+      ),
+      body: ListView(
+        children: <Widget>[
+          ListTile(
+            title: Text('ID: ${data.id ?? "No disponible"}'),
+          ),
+          ListTile(
+            title: Text('Referencia NEO ID: ${data.neoReferenceId ?? "No disponible"}'),
+          ),
+          ListTile(
+            title: Text('Nombre: ${data.name ?? "No disponible"}'),
+          ),
+          ListTile(
+            title: Text('URL NASA JPL: ${data.nasaJplUrl ?? "No disponible"}'),
+          ),
+          ListTile(
+            title: Text('Magnitud absoluta H: ${data.absoluteMagnitudeH?.toString() ?? "No disponible"}'),
+          ),
+          if (data.estimatedDiameter != null) ListTile(
+            title: Text('Diámetro estimado (km): Min: ${data.estimatedDiameter!.kilometers?.estimatedDiameterMin?.toString() ?? "No disponible"} - Max: ${data.estimatedDiameter!.kilometers?.estimatedDiameterMax?.toString() ?? "No disponible"}'),
+          ),
+          ListTile(
+            title: Text('Es objeto centinela: ${data.isSentryObject != null ? (data.isSentryObject! ? "Sí" : "No") : "No disponible"}'),
+          ),
+          ListTile(
+            title: Text('Es potencialmente peligroso: ${data.isPotentiallyHazardousAsteroid != null ? (data.isPotentiallyHazardousAsteroid! ? "Sí" : "No") : "No disponible"}'),
+          ),
+          ListTile(
+            title: Text('Enlace propio: ${data.links?.self ?? "No disponible"}'),
+          ),
+          if (data.closeApproachData != null) ...data.closeApproachData!.map((approach) => ListTile(
+            title: Text('Fecha de aproximación cercana: ${approach.closeApproachDate ?? "No disponible"}'),
+            subtitle: Text('Velocidad relativa (km/h): ${approach.relativeVelocity?.kilometersPerHour?.toString() ?? "No disponible"}\n'
+                'Distancia de paso (km): ${approach.missDistance?.kilometers?.toString() ?? "No disponible"}'),
+          )).toList(),
+        ],
+      ),
+    );
+  }
+}
+
 
 class NeoWsDataWidget extends StatelessWidget {
   final NeoWsData data;

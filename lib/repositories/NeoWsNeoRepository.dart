@@ -6,8 +6,8 @@ import '../models/NeoWsNeoData.dart';
 class NeoWsNeoRepository {
   final String baseUrl = 'http://10.0.2.2:8080/api/nasa';
 
-  Future<NeoWsNeoData> fetchNeoWsNeoData(String startDate, String endDate) async {
-    final response = await http.get(Uri.parse('$baseUrl/neows?startDate=$startDate&endDate=$endDate'));
+  Future<NeoWsNeoData> fetchNeoWsNeoData(String id) async {
+    final response = await http.get(Uri.parse('$baseUrl/neowsid/$id'));
 
     if (response.statusCode == 200) {
       return NeoWsNeoData.fromJson(jsonDecode(response.body));
@@ -15,4 +15,5 @@ class NeoWsNeoRepository {
       throw Exception('Failed to load NeoWsNeo data');
     }
   }
+
 }
