@@ -1,194 +1,215 @@
+import 'dart:convert';
 
 class NeoWsData {
-  final String id;
-  final String name;
-  final Links links;
-  final int elementCount;
-  final Map<String, List<NearEarthObject>> nearEarthObjects;
+  final String? id;
+  final String? name;
+  final Links? links;
+  final int? elementCount;
+  final Map<String, List<NearEarthObject>>? nearEarthObjects;
 
   NeoWsData({
-    required this.id,
-    required this.name,
-    required this.links,
-    required this.elementCount,
-    required this.nearEarthObjects,
+    this.id,
+    this.name,
+    this.links,
+    this.elementCount,
+    this.nearEarthObjects,
   });
 
   factory NeoWsData.fromJson(Map<String, dynamic> json) {
     return NeoWsData(
-      id: json['id'],
-      name: json['name'],
-      links: Links.fromJson(json['links']),
-      elementCount: json['element_count'],
-      nearEarthObjects: (json['near_earth_objects'] as Map<String, dynamic>).map(
-            (key, value) => MapEntry(key, List<NearEarthObject>.from(value.map((x) => NearEarthObject.fromJson(x)))),
-      ),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      links: json['links'] != null ? Links.fromJson(json['links']) : null,
+      elementCount: json['element_count'] as int?,
+      nearEarthObjects: json['near_earth_objects'] != null
+          ? (json['near_earth_objects'] as Map).map(
+            (key, value) => MapEntry(
+            key as String,
+            List<NearEarthObject>.from(
+                value.map((x) => NearEarthObject.fromJson(x)))),
+      )
+          : null,
     );
   }
 }
 
 class Links {
-  final String next;
-  final String prev;
-  final String self;
+  final String? next;
+  final String? prev;
+  final String? self;
 
-  Links({required this.next, required this.prev, required this.self});
+  Links({this.next, this.prev, this.self});
 
   factory Links.fromJson(Map<String, dynamic> json) {
     return Links(
-      next: json['next'],
-      prev: json['prev'],
-      self: json['self'],
+      next: json['next'] as String?,
+      prev: json['prev'] as String?,
+      self: json['self'] as String?,
     );
   }
 }
 
 class NearEarthObject {
-  final Links links;
-  final String id;
-  final String neoReferenceId;
-  final String name;
-  final String nasaJplUrl;
-  final double absoluteMagnitudeH;
-  final EstimatedDiameter estimatedDiameter;
-  final bool isSentryObject;
-  final bool isPotentiallyHazardousAsteroid;
-  final List<CloseApproachData> closeApproachData;
+  final Links? links;
+  final String? id;
+  final String? neoReferenceId;
+  final String? name;
+  final String? nasaJplUrl;
+  final double? absoluteMagnitudeH;
+  final EstimatedDiameter? estimatedDiameter;
+  final bool? isSentryObject;
+  final bool? isPotentiallyHazardousAsteroid;
+  final List<CloseApproachData>? closeApproachData;
 
   NearEarthObject({
-    required this.links,
-    required this.id,
-    required this.neoReferenceId,
-    required this.name,
-    required this.nasaJplUrl,
-    required this.absoluteMagnitudeH,
-    required this.estimatedDiameter,
-    required this.isSentryObject,
-    required this.isPotentiallyHazardousAsteroid,
-    required this.closeApproachData,
+    this.links,
+    this.id,
+    this.neoReferenceId,
+    this.name,
+    this.nasaJplUrl,
+    this.absoluteMagnitudeH,
+    this.estimatedDiameter,
+    this.isSentryObject,
+    this.isPotentiallyHazardousAsteroid,
+    this.closeApproachData,
   });
 
   factory NearEarthObject.fromJson(Map<String, dynamic> json) {
     return NearEarthObject(
-      links: Links.fromJson(json['links']),
-      id: json['id'],
-      neoReferenceId: json['neo_reference_id'],
-      name: json['name'],
-      nasaJplUrl: json['nasa_jpl_url'],
-      absoluteMagnitudeH: json['absolute_magnitude_h'],
-      estimatedDiameter: EstimatedDiameter.fromJson(json['estimated_diameter']),
-      isSentryObject: json['is_sentry_object'],
-      isPotentiallyHazardousAsteroid: json['is_potentially_hazardous_asteroid'],
-      closeApproachData: List<CloseApproachData>.from(json['close_approach_data'].map((x) => CloseApproachData.fromJson(x))),
+      links: json['links'] != null ? Links.fromJson(json['links']) : null,
+      id: json['id'] as String?,
+      neoReferenceId: json['neo_reference_id'] as String?,
+      name: json['name'] as String?,
+      nasaJplUrl: json['nasa_jpl_url'] as String?,
+      absoluteMagnitudeH: (json['absolute_magnitude_h'] as num?)?.toDouble(),
+      estimatedDiameter: json['estimated_diameter'] != null
+          ? EstimatedDiameter.fromJson(json['estimated_diameter'])
+          : null,
+      isSentryObject: json['is_sentry_object'] as bool?,
+      isPotentiallyHazardousAsteroid:
+      json['is_potentially_hazardous_asteroid'] as bool?,
+      closeApproachData: json['close_approach_data'] != null
+          ? List<CloseApproachData>.from(json['close_approach_data']
+          .map((x) => CloseApproachData.fromJson(x)))
+          : null,
     );
   }
 }
 
 class EstimatedDiameter {
-  final Diameter kilometers;
-  final Diameter meters;
-  final Diameter miles;
-  final Diameter feet;
+  final Diameter? kilometers;
+  final Diameter? meters;
+  final Diameter? miles;
+  final Diameter? feet;
 
   EstimatedDiameter({
-    required this.kilometers,
-    required this.meters,
-    required this.miles,
-    required this.feet,
+    this.kilometers,
+    this.meters,
+    this.miles,
+    this.feet,
   });
 
   factory EstimatedDiameter.fromJson(Map<String, dynamic> json) {
     return EstimatedDiameter(
-      kilometers: Diameter.fromJson(json['kilometers']),
-      meters: Diameter.fromJson(json['meters']),
-      miles: Diameter.fromJson(json['miles']),
-      feet: Diameter.fromJson(json['feet']),
+      kilometers: json['kilometers'] != null
+          ? Diameter.fromJson(json['kilometers'])
+          : null,
+      meters: json['meters'] != null ? Diameter.fromJson(json['meters']) : null,
+      miles: json['miles'] != null ? Diameter.fromJson(json['miles']) : null,
+      feet: json['feet'] != null ? Diameter.fromJson(json['feet']) : null,
     );
   }
 }
 
 class Diameter {
-  final double estimatedDiameterMin;
-  final double estimatedDiameterMax;
+  final double? estimatedDiameterMin;
+  final double? estimatedDiameterMax;
 
-  Diameter({required this.estimatedDiameterMin, required this.estimatedDiameterMax});
+  Diameter({this.estimatedDiameterMin, this.estimatedDiameterMax});
 
   factory Diameter.fromJson(Map<String, dynamic> json) {
     return Diameter(
-      estimatedDiameterMin: json['estimated_diameter_min'],
-      estimatedDiameterMax: json['estimated_diameter_max'],
+      estimatedDiameterMin: (json['estimated_diameter_min'] as num?)?.toDouble(),
+      estimatedDiameterMax: (json['estimated_diameter_max'] as num?)?.toDouble(),
     );
   }
 }
 
 class CloseApproachData {
-  final String closeApproachDate;
-  final String closeApproachDateFull;
-  final int epochDateCloseApproach;
-  final RelativeVelocity relativeVelocity;
-  final MissDistance missDistance;
-  final String orbitingBody;
+  final String? closeApproachDate;
+  final String? closeApproachDateFull;
+  final int? epochDateCloseApproach;
+  final RelativeVelocity? relativeVelocity;
+  final MissDistance? missDistance;
+  final String? orbitingBody;
 
   CloseApproachData({
-    required this.closeApproachDate,
-    required this.closeApproachDateFull,
-    required this.epochDateCloseApproach,
-    required this.relativeVelocity,
-    required this.missDistance,
-    required this.orbitingBody,
+    this.closeApproachDate,
+    this.closeApproachDateFull,
+    this.epochDateCloseApproach,
+    this.relativeVelocity,
+    this.missDistance,
+    this.orbitingBody,
   });
 
   factory CloseApproachData.fromJson(Map<String, dynamic> json) {
     return CloseApproachData(
-      closeApproachDate: json['close_approach_date'],
-      closeApproachDateFull: json['close_approach_date_full'],
-      epochDateCloseApproach: json['epoch_date_close_approach'],
-      relativeVelocity: RelativeVelocity.fromJson(json['relative_velocity']),
-      missDistance: MissDistance.fromJson(json['miss_distance']),
-      orbitingBody: json['orbiting_body'],
+      closeApproachDate: json['close_approach_date'] as String?,
+      closeApproachDateFull: json['close_approach_date_full'] as String?,
+      epochDateCloseApproach: json['epoch_date_close_approach'] as int?,
+      relativeVelocity: json['relative_velocity'] != null
+          ? RelativeVelocity.fromJson(json['relative_velocity'])
+          : null,
+      missDistance: json['miss_distance'] != null
+          ? MissDistance.fromJson(json['miss_distance'])
+          : null,
+      orbitingBody: json['orbiting_body'] as String?,
     );
   }
 }
 
 class RelativeVelocity {
-  final double kilometersPerSecond;
-  final double kilometersPerHour;
-  final double milesPerHour;
+  final double? kilometersPerSecond;
+  final double? kilometersPerHour;
+  final double? milesPerHour;
 
   RelativeVelocity({
-    required this.kilometersPerSecond,
-    required this.kilometersPerHour,
-    required this.milesPerHour,
+    this.kilometersPerSecond,
+    this.kilometersPerHour,
+    this.milesPerHour,
   });
 
   factory RelativeVelocity.fromJson(Map<String, dynamic> json) {
     return RelativeVelocity(
-      kilometersPerSecond: json['kilometers_per_second'],
-      kilometersPerHour: json['kilometers_per_hour'],
-      milesPerHour: json['miles_per_hour'],
+      kilometersPerSecond: (json['kilometers_per_second'] as num?)?.toDouble(),
+      kilometersPerHour: (json['kilometers_per_hour'] as num?)?.toDouble(),
+      milesPerHour: (json['miles_per_hour'] as num?)?.toDouble(),
     );
   }
 }
 
 class MissDistance {
-  final double astronomical;
-  final double lunar;
-  final double kilometers;
-  final double miles;
+  final double? astronomical;
+  final double? lunar;
+  final double? kilometers;
+  final double? miles;
 
   MissDistance({
-    required this.astronomical,
-    required this.lunar,
-    required this.kilometers,
-    required this.miles,
+    this.astronomical,
+    this.lunar,
+    this.kilometers,
+    this.miles,
   });
 
   factory MissDistance.fromJson(Map<String, dynamic> json) {
     return MissDistance(
-      astronomical: json['astronomical'],
-      lunar: json['lunar'],
-      kilometers: json['kilometers'],
-      miles: json['miles'],
+      astronomical: (json['astronomical'] as num?)?.toDouble(),
+      lunar: (json['lunar'] as num?)?.toDouble(),
+      kilometers: (json['kilometers'] as num?)?.toDouble(),
+      miles: (json['miles'] as num?)?.toDouble(),
     );
   }
+
+
 }
+

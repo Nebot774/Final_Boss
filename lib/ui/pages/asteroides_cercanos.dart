@@ -94,7 +94,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                           SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () async {
-                              // Aquí va tu código para buscar
+                              if (_startDateController.text.isEmpty || _endDateController.text.isEmpty) {
+                                print('Las fechas no pueden estar vacías');
+                                return;
+                              }
                               try {
                                 NeoWsData data = await _neoWsRepository.fetchNeoWsData(_startDateController.text, _endDateController.text);
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -202,48 +205,49 @@ class NeoWsDataWidget extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('ID: ${data.id}'),
+            title: Text('ID: ${data.id ?? "No disponible"}'),
           ),
           ListTile(
-            title: Text('Nombre: ${data.name}'),
+            title: Text('Nombre: ${data.name ?? "No disponible"}'),
           ),
           ListTile(
-            title: Text('Número de elementos: ${data.elementCount}'),
+            title: Text('Número de elementos: ${data.elementCount?.toString() ?? "No disponible"}'),
           ),
           ListTile(
-            title: Text('Enlace siguiente: ${data.links.next}'),
+            title: Text('Enlace siguiente: ${data.links?.next ?? "No disponible"}'),
           ),
           ListTile(
-            title: Text('Enlace anterior: ${data.links.prev}'),
+            title: Text('Enlace anterior: ${data.links?.prev ?? "No disponible"}'),
           ),
           ListTile(
-            title: Text('Enlace propio: ${data.links.self}'),
+            title: Text('Enlace propio: ${data.links?.self ?? "No disponible"}'),
           ),
-          for (var dateKey in data.nearEarthObjects.keys)
-            ExpansionTile(
-              title: Text('Fecha: $dateKey'),
-              children: data.nearEarthObjects[dateKey]!.map<Widget>((neo) {
-                return ListTile(
-                  title: Text('Nombre del objeto cercano a la Tierra: ${neo.name}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('ID NEO: ${neo.id}'),
-                      Text('URL NASA JPL: ${neo.nasaJplUrl}'),
-                      Text('Magnitud absoluta H: ${neo.absoluteMagnitudeH.toString()}'),
-                      Text('Diámetro estimado (km): ${neo.estimatedDiameter.kilometers.estimatedDiameterMin.toString()} - ${neo.estimatedDiameter.kilometers.estimatedDiameterMax.toString()} km'),
-                      Text('Es objeto centinela: ${neo.isSentryObject ? "Sí" : "No"}'),
-                      Text('Es potencialmente peligroso: ${neo.isPotentiallyHazardousAsteroid ? "Sí" : "No"}'),
-                      for (var approach in neo.closeApproachData)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('Fecha de acercamiento: ${approach.closeApproachDate}'),
-                        ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
+          if (data.nearEarthObjects != null)
+            for (var dateKey in data.nearEarthObjects!.keys)
+              ExpansionTile(
+                title: Text('Fecha: $dateKey'),
+                children: data.nearEarthObjects![dateKey]!.map<Widget>((neo) {
+                  return ListTile(
+                    title: Text('Nombre del objeto cercano a la Tierra: ${neo.name ?? "No disponible"}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('ID NEO: ${neo.id ?? "No disponible"}'),
+                        Text('URL NASA JPL: ${neo.nasaJplUrl ?? "No disponible"}'),
+                        Text('Magnitud absoluta H: ${neo.absoluteMagnitudeH?.toString() ?? "No disponible"}'),
+                        Text('Diámetro estimado (km): ${neo.estimatedDiameter?.kilometers?.estimatedDiameterMin?.toString() ?? "No disponible"} - ${neo.estimatedDiameter?.kilometers?.estimatedDiameterMax?.toString() ?? "No disponible"} km'),
+                        Text('Es objeto centinela: ${neo.isSentryObject != null ? (neo.isSentryObject! ? "Sí" : "No") : "No disponible"}'),
+                        Text('Es potencialmente peligroso: ${neo.isPotentiallyHazardousAsteroid != null ? (neo.isPotentiallyHazardousAsteroid! ? "Sí" : "No") : "No disponible"}'),
+                        for (var approach in neo.closeApproachData ?? [])
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text('Fecha de acercamiento: ${approach.closeApproachDate ?? "No disponible"}'),
+                          ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
         ],
       ),
     );
