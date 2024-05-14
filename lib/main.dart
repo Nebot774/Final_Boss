@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: '', // Cambia esto al título de tu aplicación
-        home: GaleriaNasa(),
+        home: AsteroidesCercanos(),
       ),
     );
   }
