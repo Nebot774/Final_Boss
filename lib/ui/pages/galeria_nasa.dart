@@ -6,27 +6,30 @@ import '../../bloc/blocs/GaleriaBloc.dart';
 import '../../bloc/events/GaleriaEvent.dart';
 import '../../bloc/states/GaleriaState.dart';
 import '../../models/GaleriaData.dart';
+import '../../widgets/DefaultInputWidget.dart';
+import '../../widgets/PersonalizedInputWidget.dart';
 import 'menu_page.dart';
+import 'package:flutter/material.dart';
+
 
 class GaleriaNasa extends StatefulWidget {
   @override
   _GaleriaNasaState createState() => _GaleriaNasaState();
 }
 
-enum InputState { initial, personalized, personalizedLoaded, defaultState } // Cambiado 'default' a 'defaultState'
+enum InputState { initial, personalized, personalizedLoaded, defaultState }
 
 class _GaleriaNasaState extends State<GaleriaNasa> {
   TextEditingController _queryController = TextEditingController();
   TextEditingController _startDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
-  TextEditingController _numResultsController = TextEditingController(); // Nuevo controlador
-  String _selectedMediaType = 'Todos'; // Valor inicial
+  TextEditingController _numResultsController = TextEditingController();
+  String _selectedMediaType = 'Todos';
 
-  InputState _inputState = InputState.initial; // Nuevo estado
+  InputState _inputState = InputState.initial;
 
   @override
   void dispose() {
-    // Asegúrate de limpiar los controladores cuando el widget se desmonte
     _queryController.dispose();
     _startDateController.dispose();
     _endDateController.dispose();
@@ -41,7 +44,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            BlocProvider.of<GaleriaBloc>(context).add(ResetGaleria()); // Evento para resetear el estado del bloc
+            BlocProvider.of<GaleriaBloc>(context).add(ResetGaleria());
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MenuPage()));
           },
         ),
@@ -76,19 +79,20 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
         ],
       ),
       body: buildBody(),
-      floatingActionButton: _inputState != InputState.initial ? FloatingActionButton(
+      floatingActionButton: _inputState != InputState.initial
+          ? FloatingActionButton(
         backgroundColor: Colors.blue[900],
         child: Icon(Icons.search),
         onPressed: () {
           _queryController.clear();
           _startDateController.clear();
           _endDateController.clear();
-          // Cambiar el estado para mostrar buildInitialButtons()
           setState(() {
             _inputState = InputState.initial;
           });
         },
-      ) : null,
+      )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -97,8 +101,34 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
     switch (_inputState) {
       case InputState.initial:
         return buildInitialButtons();
-      case InputState.personalized: // Nuevo caso
-        return buildPersonalizedInput();
+      case InputState.personalized:
+        return PersonalizedInputWidget(
+          queryController: _queryController,
+          startDateController: _startDateController,
+          endDateController: _endDateController,
+          numResultsController: _numResultsController,
+          selectedMediaType: _selectedMediaType,
+          onMediaTypeChanged: (newValue) {
+            setState(() {
+              _selectedMediaType = newValue;
+            });
+          },
+          onSearchPressed: () {
+            int numResults = int.parse(_numResultsController.text);
+            BlocProvider.of<GaleriaBloc>(context).add(
+              FetchGaleriaData(
+                query: _queryController.text,
+                startDate: _startDateController.text,
+                endDate: _endDateController.text,
+                mediaType: _selectedMediaType,
+                numResults: numResults,
+              ),
+            );
+            setState(() {
+              _inputState = InputState.personalizedLoaded;
+            });
+          },
+        );
       case InputState.personalizedLoaded:
         return BlocBuilder<GaleriaBloc, GaleriaState>(
           builder: (context, state) {
@@ -119,7 +149,7 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
             if (state is GaleriaLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is GaleriaDefectoLoaded) {
-              return buildDefaultInput(state.galeriaData);
+              return DefaultInputWidget(galeriaData: state.galeriaData);
             } else if (state is GaleriaError) {
               return Center(child: Text('Error: ${state.message}'));
             } else {
@@ -128,25 +158,21 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
           },
         );
       default:
-        return Container();  // Manejador por defecto para estados no reconocidos
+        return Container();
     }
   }
-
-
 
   Widget buildInitialButtons() {
     return Center(
       child: Container(
-        decoration: BoxDecoration(
-
-        ),
+        decoration: BoxDecoration(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue[900], // color del botón
-                onPrimary: Colors.white, // color del texto
+                primary: Colors.red,
+                onPrimary: Colors.white,
                 textStyle: TextStyle(
                   fontFamily: 'Exo',
                   fontWeight: FontWeight.bold,
@@ -161,8 +187,8 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue[900], // color del botón
-                onPrimary: Colors.white, // color del texto
+                primary: Colors.red,
+                onPrimary: Colors.white,
                 textStyle: TextStyle(
                   fontFamily: 'Exo',
                   fontWeight: FontWeight.bold,
@@ -175,132 +201,12 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
                 BlocProvider.of<GaleriaBloc>(context).add(FetchGaleriaDefectoData());
               },
               child: Text('Búsqueda por Defecto'),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildDefaultInput(GaleriaData galeriaData) {
-    return ListView.builder(
-      itemCount: galeriaData.items.length,
-      itemBuilder: (context, index) {
-        var item = galeriaData.items[index];
-        var smallImageUrl = item.imageLinks?.firstWhere((link) => link.endsWith('small.jpg'), orElse: () => '') ?? '';
-
-        return Column(
-          children: <Widget>[
-            if (smallImageUrl != null && smallImageUrl.isNotEmpty)
-              GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: Image.network(smallImageUrl),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text('Close'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: Image.network(smallImageUrl),
-              )
-            else
-              Text('No image available'),
-            if (item.description != null && item.description!.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(item.description!),
-              )
-            else
-              Text('No description available'),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget buildPersonalizedInput([GaleriaData? galeriaData]) {
-    return Center(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _queryController,
-              decoration: InputDecoration(
-                labelText: 'Buscar por tema',
-                hintText: 'Ej. Apollo 11',
-              ),
-            ),
-            TextField(
-              controller: _startDateController,
-              decoration: InputDecoration(
-                labelText: 'Fecha de inicio (YYYY-MM-DD)',
-                hintText: 'Ej. 1969-07-16',
-              ),
-            ),
-            TextField(
-              controller: _endDateController,
-              decoration: InputDecoration(
-                labelText: 'Fecha de fin (YYYY-MM-DD)',
-                hintText: 'Ej. 1969-07-24',
-              ),
-            ),
-            TextField(
-              controller: _numResultsController, // Asegúrate de inicializar este controlador
-              decoration: InputDecoration(
-                labelText: 'Número de resultados',
-                hintText: 'Ej. 10',
-              ),
-              keyboardType: TextInputType.number, // Para permitir solo la entrada de números
-            ),
-            DropdownButton<String>(
-              value: _selectedMediaType,
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedMediaType = newValue!;
-                });
-              },
-              items: <String>['Todos', 'Imagen', 'Video']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                int numResults = int.parse(_numResultsController.text); // Convierte el texto a un entero
-                BlocProvider.of<GaleriaBloc>(context).add(
-                    FetchGaleriaData(
-                      query: _queryController.text,
-                      startDate: _startDateController.text,
-                      endDate: _endDateController.text,
-                      mediaType: _selectedMediaType,
-                      numResults: numResults, // Añade el parámetro numResults
-                    )
-                );
-                setState(() {
-                  _inputState = InputState.personalizedLoaded; // Cambia el estado a personalizedLoaded
-                });
-              },
-              child: Text('Buscar'),
             ),
           ],
         ),
       ),
     );
   }
-
 
   Widget buildResults(GaleriaData galeriaData) {
     return ListView.builder(
@@ -345,6 +251,5 @@ class _GaleriaNasaState extends State<GaleriaNasa> {
       },
     );
   }
-
-
 }
+
