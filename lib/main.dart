@@ -3,6 +3,7 @@ import 'package:final_boss/repositories/GaleriaRepository.dart';
 import 'package:final_boss/repositories/ImagenCumpleanosRepository.dart';
 import 'package:final_boss/ui/pages/asteroides_cercanos.dart';
 import 'package:final_boss/ui/pages/galeria_nasa.dart';
+import 'package:final_boss/ui/pages/mars_rovers.dart';
 import 'package:flutter/material.dart';
 import 'bloc/blocs/GaleriaBloc.dart';
 import 'bloc/blocs/apod_bloc.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: '', // Cambia esto al título de tu aplicación
-        home: AsteroidesCercanos(),
+        home: MarsRovers(),
       ),
     );
   }

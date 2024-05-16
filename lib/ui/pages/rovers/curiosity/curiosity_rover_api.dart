@@ -37,44 +37,9 @@ class _CuriosityRoverState extends State<CuriosityRover> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Cámaras',
-                style: TextStyle(
-                  fontFamily: 'Exo',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
-              ),
+
             ),
-            DropdownButton<String>(
-              value: selectedCamera,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedCamera = newValue!;
-                });
-              },
-              items: cameras.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value, style: TextStyle(color: Colors.black)),
-                );
-              }).toList(),
-              dropdownColor: Colors.grey[800],
-            ),
-            ElevatedButton(
-              onPressed: () => _selectDate(context),
-              child: Text(
-                "Selecciona una fecha: ${selectedDate.toLocal()}".split(' ')[0],
-                style: TextStyle(
-                  fontFamily: 'Exo',
-                  color: Colors.white,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue[900], // Botón azul
-              ),
-            ),
+
             // Aquí puedes añadir más widgets según lo necesites
           ],
         ),
