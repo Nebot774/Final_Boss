@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/MarsRover.dart';
 import '../../../../repositories/MarsRoverRepository.dart';
 import '../../../../widgets/MarsRoverSearchWidget.dart';
+import 'package:flutter/material.dart';
 
 
 class CuriosityRover extends StatefulWidget {
@@ -26,7 +27,7 @@ class _CuriosityRoverState extends State<CuriosityRover> {
     });
 
     try {
-      final dateString = "${date.year}-${date.month}-${date.day}";
+      final dateString = "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
       final results = await repository.fetchMarsRoverPhotos(roverName, dateString, camera);
       setState(() {
         photos = results;
@@ -48,7 +49,7 @@ class _CuriosityRoverState extends State<CuriosityRover> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            MarsRoverSearchWidget(onSearch: _searchPhotos),
+            MarsRoverSearchWidget(onSearch: _searchPhotos, roverName: 'Curiosity'),
             if (isLoading)
               CircularProgressIndicator()
             else
