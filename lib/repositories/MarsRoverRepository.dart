@@ -11,7 +11,12 @@ class MarsRoverRepository {
   MarsRoverRepository({required this.baseUrl});
 
   Future<List<MarsRoverPhoto>> fetchMarsRoverPhotos(String rover, String earthDate, String camera) async {
-    final response = await http.get(Uri.parse('$baseUrl/rovers/$rover/photos?earth_date=$earthDate&camera=$camera'));
+    final url = Uri.parse('$baseUrl/rovers/$rover/photos?earth_date=$earthDate&camera=$camera&api_key=9dgFAENW1dghiXqP2wPmdCDEOsCAISYbrm3XW2tc');
+
+    // Imprime la URL completa
+    print('URL: $url');
+
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);

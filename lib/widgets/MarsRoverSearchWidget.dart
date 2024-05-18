@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class MarsRoverSearchWidget extends StatefulWidget {
   final Function(String roverName, DateTime date, String camera) onSearch;
-  final String roverName; // Añadimos esta propiedad para saber el nombre del rover
+  final String roverName;
 
   MarsRoverSearchWidget({required this.onSearch, required this.roverName});
 
@@ -39,11 +35,11 @@ class _MarsRoverSearchWidgetState extends State<MarsRoverSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0), // Margen superior
-          child: TextFormField(
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          TextFormField(
             decoration: InputDecoration(
               labelText: 'Rover',
               labelStyle: TextStyle(
@@ -55,91 +51,67 @@ class _MarsRoverSearchWidgetState extends State<MarsRoverSearchWidget> {
             ),
             readOnly: true,
             initialValue: widget.roverName,
-            style: TextStyle(
-              fontFamily: 'Exo',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
           ),
-        ),
-        SizedBox(height: 16), // Espaciado entre campos
-        TextFormField(
-          decoration: InputDecoration(
-            labelText: 'Fecha de búsqueda',
-            labelStyle: TextStyle(
-              fontFamily: 'Exo',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.calendar_today, color: Colors.white),
-              onPressed: () => _selectDate(context),
-            ),
-            border: OutlineInputBorder(),
-          ),
-          readOnly: true,
-          controller: TextEditingController(
-            text: DateFormat('yyyy-MM-dd').format(selectedDate),
-          ),
-          style: TextStyle(
-            fontFamily: 'Exo',
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(height: 16), // Espaciado entre campos
-        DropdownButtonFormField(
-          value: selectedCamera,
-          decoration: InputDecoration(
-            labelText: 'Cámara',
-            labelStyle: TextStyle(
-              fontFamily: 'Exo',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            border: OutlineInputBorder(),
-          ),
-          items: cameras.map((camera) {
-            return DropdownMenuItem(
-              value: camera,
-              child: Text(
-                camera,
-                style: TextStyle(
-                  fontFamily: 'Exo',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+          SizedBox(height: 16.0),
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Fecha de búsqueda',
+              labelStyle: TextStyle(
+                fontFamily: 'Exo',
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
-            );
-          }).toList(),
-          onChanged: (String? newValue) {
-            setState(() {
-              selectedCamera = newValue!;
-            });
-          },
-          style: TextStyle(
-            fontFamily: 'Exo',
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          dropdownColor: Colors.blue[900], // Color del fondo del dropdown
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            widget.onSearch(widget.roverName, selectedDate, selectedCamera);
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.red, // Fondo rojo
-            textStyle: TextStyle(
-              fontFamily: 'Exo',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+              border: OutlineInputBorder(),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.calendar_today),
+                onPressed: () => _selectDate(context),
+              ),
+            ),
+            readOnly: true,
+            controller: TextEditingController(
+              text: DateFormat('yyyy-MM-dd').format(selectedDate),
             ),
           ),
-          child: Text('Buscar'),
-        ),
-      ],
+          SizedBox(height: 16.0),
+          DropdownButtonFormField(
+            value: selectedCamera,
+            decoration: InputDecoration(
+              labelText: 'Cámara',
+              labelStyle: TextStyle(
+                fontFamily: 'Exo',
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              border: OutlineInputBorder(),
+            ),
+            items: cameras.map((camera) {
+              return DropdownMenuItem(
+                value: camera,
+                child: Text(camera),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                selectedCamera = newValue!;
+              });
+            },
+          ),
+          SizedBox(height: 16.0),
+          ElevatedButton(
+            onPressed: () {
+              widget.onSearch(widget.roverName, selectedDate, selectedCamera);
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+              textStyle: TextStyle(
+                fontFamily: 'Exo',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            child: Text('Buscar'),
+          ),
+        ],
+      ),
     );
   }
 }
