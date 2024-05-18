@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 
-
 class MarsRoverSearchWidget extends StatefulWidget {
   final Function(String roverName, DateTime date, String camera) onSearch;
   final String roverName;
@@ -51,6 +50,11 @@ class _MarsRoverSearchWidgetState extends State<MarsRoverSearchWidget> {
             ),
             readOnly: true,
             initialValue: widget.roverName,
+            style: TextStyle( // Añadido estilo
+              fontFamily: 'Exo',
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           SizedBox(height: 16.0),
           TextFormField(
@@ -71,6 +75,11 @@ class _MarsRoverSearchWidgetState extends State<MarsRoverSearchWidget> {
             controller: TextEditingController(
               text: DateFormat('yyyy-MM-dd').format(selectedDate),
             ),
+            style: TextStyle( // Añadido estilo
+              fontFamily: 'Exo',
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           SizedBox(height: 16.0),
           DropdownButtonFormField(
@@ -87,7 +96,11 @@ class _MarsRoverSearchWidgetState extends State<MarsRoverSearchWidget> {
             items: cameras.map((camera) {
               return DropdownMenuItem(
                 value: camera,
-                child: Text(camera),
+                child: Text(camera, style: TextStyle(
+                  fontFamily: 'Exo',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                )),
               );
             }).toList(),
             onChanged: (String? newValue) {
@@ -95,6 +108,7 @@ class _MarsRoverSearchWidgetState extends State<MarsRoverSearchWidget> {
                 selectedCamera = newValue!;
               });
             },
+            dropdownColor: Colors.black, // Añadido para cambiar el color de fondo a negro
           ),
           SizedBox(height: 16.0),
           ElevatedButton(
