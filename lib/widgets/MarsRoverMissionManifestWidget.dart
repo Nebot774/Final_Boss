@@ -21,45 +21,17 @@ class _MarsRoverMissionManifestWidgetState extends State<MarsRoverMissionManifes
   );
 
   bool isLoading = false;
-  bool isExpanded = true;  // Mostrar expandido por defecto
+  bool isExpanded = false;  // Mostrar plegado por defecto
   MissionManifest? missionManifest;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchMissionManifest();
-  }
-
-  void _fetchMissionManifest() async {
-    print('Fetching mission manifest...');
-
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      final manifest = await repository.getMissionManifest(widget.roverName);
-      print('Mission manifest fetched: $manifest');
-      setState(() {
-        missionManifest = manifest;
-      });
-    } catch (e) {
-      print('Error al obtener el manifiesto de la misión: $e');
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
       expandedHeaderPadding: EdgeInsets.all(0),
-      expansionCallback: (int index, bool isExpanded) {
+      expansionCallback: (int index, bool isCurrentlyExpanded) {
         setState(() {
-          this.isExpanded = !isExpanded;
-          if (!isExpanded) {
+          this.isExpanded = !this.isExpanded;
+          if (this.isExpanded) {
             _fetchMissionManifest();
           }
         });
@@ -111,5 +83,27 @@ class _MarsRoverMissionManifestWidgetState extends State<MarsRoverMissionManifes
         ),
       ],
     );
+  }
+
+  void _fetchMissionManifest() async {
+    print('Fetching mission manifest...');
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final manifest = await repository.getMissionManifest(widget.roverName);
+      print('Mission manifest fetched: $manifest');
+      setState(() {
+        missionManifest = manifest;
+      });
+    } catch (e) {
+      print('Error al obtener el manifiesto de la misión: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
