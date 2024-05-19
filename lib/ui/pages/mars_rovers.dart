@@ -7,6 +7,8 @@ import 'package:final_boss/ui/pages/rovers/spirit/spiritRover.dart';
 import 'package:final_boss/widgets/item_card_rover.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'menu_page.dart';
+
 
 class MarsRovers extends StatelessWidget {
   final List<ItemRover> rovers = [
@@ -34,6 +36,12 @@ class MarsRovers extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MenuPage()));
+          },
+        ),
         title: Text(
           'Mar Rovers en Marte',
           style: TextStyle(
