@@ -6,12 +6,11 @@ import 'package:intl/intl.dart';
 import '../../../../models/MarsRover.dart';
 import '../../../../repositories/MarsRoverRepository.dart';
 import '../../../../widgets/MarsRoverLoadWidget.dart';
+import '../../../../widgets/MarsRoverMissionManifestWidget.dart';
 import '../../../../widgets/MarsRoverSearchWidget.dart';
 import 'package:flutter/material.dart';
 
 import '../../terms_and_conditions_screen.dart';
-
-
 
 class CuriosityRover extends StatefulWidget {
   @override
@@ -40,7 +39,6 @@ class _CuriosityRoverState extends State<CuriosityRover> {
         photos = results;
       });
     } catch (e) {
-      // Maneja el error adecuadamente
       print(e);
     } finally {
       setState(() {
@@ -53,11 +51,14 @@ class _CuriosityRoverState extends State<CuriosityRover> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            if (!hasSearched)
+            if (!hasSearched) ...[
               MarsRoverSearchWidget(onSearch: _searchPhotos, roverName: 'Curiosity'),
+              MarsRoverMissionManifestWidget(roverName: 'Curiosity'),
+            ],
             if (isLoading)
               Padding(
                 padding: const EdgeInsets.all(20.0),
