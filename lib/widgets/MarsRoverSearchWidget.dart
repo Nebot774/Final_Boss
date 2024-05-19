@@ -122,7 +122,15 @@ class _MarsRoverSearchWidgetState extends State<MarsRoverSearchWidget> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            child: Text('Buscar'),
+            child: FittedBox(
+              child: Text(
+                'Buscar',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                ),
+              ),
+            ),
           ),
         ],
       ),

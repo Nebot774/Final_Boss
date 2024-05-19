@@ -41,12 +41,15 @@ class _MarsRoverMissionManifestWidgetState extends State<MarsRoverMissionManifes
           backgroundColor: Colors.red,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
-              title: Text(
-                'Ver Manifiesto de Misión',
-                style: TextStyle(
-                  fontFamily: 'Exo',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              title: FittedBox(
+                child: Text(
+                  'Ver Manifiesto de Misión',
+                  style: TextStyle(
+                    fontFamily: 'Exo',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                  ),
                 ),
               ),
             );
@@ -62,13 +65,27 @@ class _MarsRoverMissionManifestWidgetState extends State<MarsRoverMissionManifes
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Nombre: ${missionManifest!.photoManifest.name}', style: TextStyle(color: Colors.white)),
-                Text('Fecha de aterrizaje: ${missionManifest!.photoManifest.landingDate}', style: TextStyle(color: Colors.white)),
-                Text('Fecha de lanzamiento: ${missionManifest!.photoManifest.launchDate}', style: TextStyle(color: Colors.white)),
-                Text('Estado: ${missionManifest!.photoManifest.status}', style: TextStyle(color: Colors.white)),
-                Text('Máximo sol: ${missionManifest!.photoManifest.maxSol}', style: TextStyle(color: Colors.white)),
-                Text('Fecha máxima: ${missionManifest!.photoManifest.maxDate}', style: TextStyle(color: Colors.white)),
-                Text('Total de fotos: ${missionManifest!.photoManifest.totalPhotos}', style: TextStyle(color: Colors.white)),
+                FittedBox(
+                  child: Text('Nombre: ${missionManifest!.photoManifest.name}', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
+                ),
+                FittedBox(
+                  child: Text('Fecha de aterrizaje: ${missionManifest!.photoManifest.landingDate}', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
+                ),
+                FittedBox(
+                  child: Text('Fecha de lanzamiento: ${missionManifest!.photoManifest.launchDate}', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
+                ),
+                FittedBox(
+                  child: Text('Estado: ${missionManifest!.photoManifest.status}', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
+                ),
+                FittedBox(
+                  child: Text('Máximo sol: ${missionManifest!.photoManifest.maxSol}', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
+                ),
+                FittedBox(
+                  child: Text('Fecha máxima: ${missionManifest!.photoManifest.maxDate}', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
+                ),
+                FittedBox(
+                  child: Text('Total de fotos: ${missionManifest!.photoManifest.totalPhotos}', style: TextStyle(fontFamily: 'Exo', fontWeight: FontWeight.bold, color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05)),
+                ),
               ],
             ),
           )
