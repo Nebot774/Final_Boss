@@ -1,11 +1,13 @@
 import 'package:final_boss/repositories/ApodRepository.dart';
 import 'package:final_boss/repositories/GaleriaRepository.dart';
 import 'package:final_boss/repositories/ImagenCumpleanosRepository.dart';
+import 'package:final_boss/repositories/TierraDesdeEspacioRepository.dart';
 import 'package:final_boss/ui/pages/asteroides_cercanos.dart';
 import 'package:final_boss/ui/pages/galeria_nasa.dart';
 import 'package:final_boss/ui/pages/mars_rovers.dart';
 import 'package:flutter/material.dart';
 import 'bloc/blocs/GaleriaBloc.dart';
+import 'bloc/blocs/TierraDesdeEspacioBloc.dart';
 import 'bloc/blocs/apod_bloc.dart';
 import 'ui/pages/home_page.dart'; // Asegúrate de que esta ruta de importación sea correcta
 import 'package:final_boss/ui/pages/menu_page.dart';
@@ -37,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<GaleriaBloc>(
           create: (context) => GaleriaBloc(galeriaRepository: GaleriaRepository()),
+        ),
+        BlocProvider<TierraDesdeEspacioBloc>(
+          create: (context) => TierraDesdeEspacioBloc(TierraDesdeEspacioRepository()),
         ),
       ],
       child: MaterialApp(
