@@ -9,16 +9,10 @@ import 'package:flutter/material.dart';
 import 'bloc/blocs/GaleriaBloc.dart';
 import 'bloc/blocs/TierraDesdeEspacioBloc.dart';
 import 'bloc/blocs/apod_bloc.dart';
-import 'ui/pages/home_page.dart'; // Asegúrate de que esta ruta de importación sea correcta
-import 'package:final_boss/ui/pages/menu_page.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/blocs/imagen_cumpleanos_bloc.dart';
-
-import 'package:final_boss/bloc/blocs/GaleriaBloc.dart';
-import 'package:final_boss/repositories/GaleriaRepository.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -32,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ApodBloc>(
-          create: (context) => ApodBloc(apodRepository: ApodRepository()),
+          create: (context) => ApodBloc(apodRepository: ApodRepository(client: http.Client())),
         ),
         BlocProvider<ImagenCumpleanosBloc>(
           create: (context) => ImagenCumpleanosBloc(imagenCumpleanosRepository: ImagenCumpleanosRepository()),

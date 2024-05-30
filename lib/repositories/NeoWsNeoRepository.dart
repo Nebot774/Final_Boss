@@ -12,7 +12,7 @@ class NeoWsNeoRepository {
     if (response.statusCode == 200) {
       return NeoWsNeoData.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load NeoWsNeo data');
+      throw Exception('Error:no se encontro el asteroide con ese ID');
     }
   }
 

@@ -13,6 +13,7 @@ import 'package:final_boss/ui/pages/terms_and_conditions_screen.dart';
 import '../../bloc/blocs/TierraDesdeEspacioBloc.dart';
 import '../../bloc/events/TierraDesdeEspacioEvent.dart';
 import '../../bloc/states/TierraDesdeEspacioState.dart';
+import '../../widgets/TierraDesdeEspacioWidget.dart';
 
 class TierraDesdeEspacio extends StatefulWidget {
   @override
@@ -23,7 +24,6 @@ class _TierraDesdeEspacioState extends State<TierraDesdeEspacio> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lonController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,71 +62,24 @@ class _TierraDesdeEspacioState extends State<TierraDesdeEspacio> {
           ),
         ],
       ),
-      body: SingleChildScrollView( // Añade esto
-        child: Container(
-          color: Colors.black,
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              TextField(
-                controller: _latController,
-                decoration: InputDecoration(
-                  labelText: 'Latitud',
-                  labelStyle: TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                ),
-                style: TextStyle(color: Colors.white),
+      body: Container(
+        color: Colors.black, // Añade el fondo negro aquí
+        child: Column(
+          children: [
+            Expanded(
+              child: TierraDesdeEspacioWidget(
+                latController: _latController,
+                lonController: _lonController,
+                selectedDate: _selectedDate,
+                selectDate: _selectDate,
+                search: _search,
               ),
-              SizedBox(height: 10),
-              TextField(
-                controller: _lonController,
-                decoration: InputDecoration(
-                  labelText: 'Longitud',
-                  labelStyle: TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                ),
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () => _selectDate(context),
-                child: Text(
-                  'Fecha: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () => _search(),
-                child: Text('Buscar'),
-              ),
-              SizedBox(height: 10),
-              BlocBuilder<TierraDesdeEspacioBloc, TierraDesdeEspacioState>(
-                builder: (context, state) {
-                  if (state is TierraDesdeEspacioLoading) {
-                    return CircularProgressIndicator();
-                  } else if (state is TierraDesdeEspacioLoaded) {
-                    print(state.tierraDesdeEspacio.url); // Imprime la URL en la consola
-                    return Image.network(state.tierraDesdeEspacio.url);
-                  } else if (state is TierraDesdeEspacioError) {
-                    print(state.message); // Imprime el mensaje de error en la consola
-                    return Text(state.message);
-                  }
-                  return Container();
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
-
-
 
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -140,6 +93,7 @@ class _TierraDesdeEspacioState extends State<TierraDesdeEspacio> {
         _selectedDate = picked;
       });
   }
+
   _search() {
     final lat = double.tryParse(_latController.text);
     final lon = double.tryParse(_lonController.text);

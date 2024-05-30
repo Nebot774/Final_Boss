@@ -19,6 +19,8 @@ class MarsRoverError extends MarsRoverState {
   MarsRoverError({required this.message});
 }
 
+class MarsRoverImageLoading extends MarsRoverState {} // Nuevo estado para la carga de imágenes
+
 class MissionManifestLoading extends MarsRoverState {}
 
 class MissionManifestLoaded extends MarsRoverState {
