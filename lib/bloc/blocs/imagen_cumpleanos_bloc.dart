@@ -38,7 +38,7 @@ class ImagenCumpleanosBloc extends Bloc<ImagenCumpleanosEvent, ImagenCumpleanosS
         ApodData newData = ApodData(
             title: data.title,
             url: data.url,
-            explanation: translatedExplanation, // Reemplaza 'explanation' con 'translatedExplanation'
+            explanation: translatedExplanation, 
             copyright: data.copyright,
             date: data.date
         );

@@ -75,7 +75,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                       );
                     },
                     body: Container(
-                      color: Colors.lightBlue[100],
+                      color: Colors.blueGrey,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -187,7 +187,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                       );
                     },
                     body: Container(
-                      color: Colors.lightBlue[100],
+                      color: Colors.blueGrey,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
